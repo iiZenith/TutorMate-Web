@@ -14,11 +14,7 @@ export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
       onClick={toggleTheme}
       aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
       title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-      className={`rounded-xl p-2 transition-colors ${
-        theme === "dark"
-          ? "bg-slate-700 text-amber-400 hover:bg-slate-600"
-          : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-      } ${className}`}
+      className={`rounded-xl p-2 transition-colors bg-surface-sunken text-text-secondary hover:bg-surface-raised hover:text-brand-600 ${className}`}
     >
       {theme === "light" ? (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

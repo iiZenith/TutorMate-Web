@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 
-import { useEffect, useState } from "react";
 
 /* ═══════════════════════════════════════════════════
    Landing Page  –  TutorMate Nepal
@@ -12,21 +11,19 @@ import { useEffect, useState } from "react";
 export default function HomePage() {
   const { user, isAdmin, userData } = useAuth();
 
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []);
 
   return (
     <>
       {/* ─── Navbar ─── */}
-      <header className="sticky top-0 z-50 border-b border-border-default/60 bg-white  backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-border-default/60 bg-surface-raised backdrop-blur-xl">
         <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white text-lg font-bold shadow-md shadow-brand-500/25">
               T
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900 ">
+            <span className="text-xl font-bold tracking-tight text-text-primary">
               Tutor<span className="text-brand-600">Mate</span>
             </span>
           </Link>
@@ -35,19 +32,19 @@ export default function HomePage() {
           <div className="hidden items-center gap-8 md:flex">
             <Link
               href="/signup/student"
-              className="text-sm font-medium text-slate-500  transition-colors hover:text-brand-600"
+              className="text-sm font-medium text-text-muted transition-colors hover:text-brand-600"
             >
               Find a Tutor
             </Link>
             <Link
               href="/signup/tutor"
-              className="text-sm font-medium text-slate-500  transition-colors hover:text-brand-600"
+              className="text-sm font-medium text-text-muted transition-colors hover:text-brand-600"
             >
               Become a Tutor
             </Link>
             <a
               href="#how-it-works"
-              className="text-sm font-medium text-slate-500  transition-colors hover:text-brand-600"
+              className="text-sm font-medium text-text-muted transition-colors hover:text-brand-600"
             >
               How It Works
             </a>
@@ -60,7 +57,7 @@ export default function HomePage() {
             {!user && (
               <Link
                 href="/"
-                className="hidden text-sm font-semibold text-slate-700  transition hover:text-brand-600 sm:block"
+                className="hidden text-sm font-semibold text-text-secondary transition hover:text-brand-600 sm:block"
               >
                 Log In
               </Link>
@@ -69,7 +66,7 @@ export default function HomePage() {
             {user && isAdmin && (
               <Link
                 href="/admin"
-                className="hidden rounded-xl bg-slate-900  px-5 py-2.5 text-sm font-semibold text-white  shadow-lg transition hover:bg-slate-800 sm:block"
+                className="hidden rounded-xl bg-surface-raised px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition hover:bg-brand-600 sm:block"
               >
                 Admin Panel
               </Link>
@@ -78,7 +75,7 @@ export default function HomePage() {
             {user && userData?.role === "tutor" && (
               <Link
                 href="/tutor/dashboard"
-                className="hidden rounded-xl bg-slate-900  px-5 py-2.5 text-sm font-semibold text-white  shadow-lg transition hover:bg-slate-800 sm:block"
+                className="hidden rounded-xl bg-surface-raised px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition hover:bg-brand-600 sm:block"
               >
                 Dashboard
               </Link>
@@ -111,7 +108,7 @@ export default function HomePage() {
           </div>
 
           <h1
-            className="animate-fade-in-up mx-auto max-w-4xl text-5xl font-extrabold leading-tight tracking-tight text-slate-900  sm:text-6xl lg:text-7xl"
+            className="animate-fade-in-up mx-auto max-w-4xl text-5xl font-extrabold leading-tight tracking-tight text-text-primary sm:text-6xl lg:text-7xl"
             style={{ animationDelay: "0.1s" }}
           >
             Find the Perfect{" "}
@@ -122,7 +119,7 @@ export default function HomePage() {
           </h1>
 
           <p
-            className="animate-fade-in-up mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-600  sm:text-xl"
+            className="animate-fade-in-up mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-text-secondary sm:text-xl"
             style={{ animationDelay: "0.2s" }}
           >
             Connect with verified, experienced tutors in your area. Whether
@@ -146,7 +143,7 @@ export default function HomePage() {
             </a>
             <a
               href="#how-it-works"
-              className="inline-flex items-center gap-2 rounded-2xl border border-slate-200  bg-white  px-8 py-4 text-base font-semibold text-slate-700  shadow-sm transition hover:border-brand-300 hover:text-brand-600"
+              className="inline-flex items-center gap-2 rounded-2xl border border-border-default bg-surface-raised px-8 py-4 text-base font-semibold text-text-secondary shadow-sm transition hover:border-brand-300 hover:text-brand-600"
             >
               Learn More
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -168,12 +165,12 @@ export default function HomePage() {
             ].map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-2xl border border-white  bg-white  px-4 py-5 shadow-sm backdrop-blur-sm"
+                className="rounded-2xl border border-border-default bg-surface-raised px-4 py-5 shadow-sm backdrop-blur-sm"
               >
                 <p className="text-2xl font-bold text-brand-600">
                   {stat.value}
                 </p>
-                <p className="mt-1 text-xs font-medium text-slate-500">
+                <p className="mt-1 text-xs font-medium text-text-muted">
                   {stat.label}
                 </p>
               </div>
@@ -183,16 +180,16 @@ export default function HomePage() {
       </section>
 
       {/* ─── How It Works ─── */}
-      <section id="how-it-works" className="bg-white  py-24">
+      <section id="how-it-works" className="bg-surface-raised py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-widest text-brand-600">
               Simple Process
             </p>
-            <h2 className="mt-3 text-4xl font-bold tracking-tight text-slate-900 ">
+            <h2 className="mt-3 text-4xl font-bold tracking-tight text-text-primary">
               How TutorMate Works
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-slate-500">
+            <p className="mx-auto mt-4 max-w-2xl text-text-muted">
               Getting started is easy. Follow these three simple steps to find
               your ideal tutor today.
             </p>
@@ -233,20 +230,20 @@ export default function HomePage() {
             ].map((item) => (
               <div
                 key={item.step}
-                className="group relative rounded-2xl border border-slate-100  bg-slate-50  p-8 transition-all hover:border-brand-200 hover:bg-brand-50/30 hover:shadow-lg hover:shadow-brand-100/40"
+                className="group relative rounded-2xl border border-border-default bg-surface p-8 transition-all hover:border-brand-200 hover:bg-brand-50/30 hover:shadow-lg hover:shadow-brand-100/40"
               >
                 <div className="mb-5 flex items-center gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 text-brand-600 transition-colors group-hover:bg-brand-600 group-hover:text-white">
                     {item.icon}
                   </div>
-                  <span className="text-3xl font-extrabold text-slate-200 transition-colors group-hover:text-brand-200">
+                  <span className="text-3xl font-extrabold text-border-default transition-colors group-hover:text-brand-200">
                     {item.step}
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 ">
+                <h3 className="text-lg font-bold text-text-primary">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-500">
+                <p className="mt-2 text-sm leading-relaxed text-text-muted">
                   {item.desc}
                 </p>
               </div>
@@ -262,7 +259,7 @@ export default function HomePage() {
             <p className="text-sm font-semibold uppercase tracking-widest text-brand-600">
               Why Choose Us
             </p>
-            <h2 className="mt-3 text-4xl font-bold tracking-tight text-slate-900 ">
+            <h2 className="mt-3 text-4xl font-bold tracking-tight text-text-primary">
               Everything You Need
             </h2>
           </div>
@@ -302,13 +299,13 @@ export default function HomePage() {
             ].map((feature) => (
               <div
                 key={feature.title}
-                className="rounded-2xl border border-white  bg-white  p-7 shadow-sm transition-all hover:border-brand-100 hover:shadow-md"
+                className="rounded-2xl border border-border-default bg-surface-raised p-7 shadow-sm transition-all hover:border-brand-100 hover:shadow-md"
               >
                 <span className="text-3xl">{feature.icon}</span>
-                <h3 className="mt-4 text-base font-bold text-slate-900 ">
+                <h3 className="mt-4 text-base font-bold text-text-primary">
                   {feature.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-500">
+                <p className="mt-2 text-sm leading-relaxed text-text-muted">
                   {feature.desc}
                 </p>
               </div>
@@ -318,7 +315,7 @@ export default function HomePage() {
       </section>
 
       {/* ─── Download CTA ─── */}
-      <section id="download" className="bg-white  py-24">
+      <section id="download" className="bg-surface-raised py-24">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <div className="rounded-3xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-800 p-12 shadow-2xl shadow-brand-700/25 sm:p-16">
             <h2 className="text-3xl font-bold text-white sm:text-4xl">
@@ -331,7 +328,7 @@ export default function HomePage() {
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <a
                 href="#"
-                className="inline-flex items-center gap-3 rounded-2xl bg-white  px-7 py-4 font-semibold text-brand-700 shadow-lg transition hover:bg-brand-50"
+                className="inline-flex items-center gap-3 rounded-2xl bg-surface-raised px-7 py-4 font-semibold text-brand-700 shadow-lg transition hover:bg-brand-50"
               >
                 <svg className="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M17.523 2.235a.533.533 0 0 0-.146.003c-.108.017-.222.06-.36.128l-9.7 5.618L4.003 4.858c-.524-.502-1.067-.536-1.46-.146l-.002.002c-.385.385-.35.917.148 1.44l2.84 2.73-2.84 2.73c-.498.523-.533 1.055-.148 1.44l.002.002c.393.39.936.356 1.46-.146l3.314-3.126 9.7 5.618c.138.068.252.11.36.128a.533.533 0 0 0 .146.003c.333-.037.634-.318.634-.88V3.115c0-.562-.3-.843-.634-.88z" />
@@ -340,7 +337,7 @@ export default function HomePage() {
               </a>
               <a
                 href="#"
-                className="inline-flex items-center gap-3 rounded-2xl border-2 border-white  bg-white  px-7 py-4 font-semibold text-white shadow-lg backdrop-blur-sm transition hover:bg-white "
+                className="inline-flex items-center gap-3 rounded-2xl border-2 border-border-default bg-surface-raised px-7 py-4 font-semibold text-white shadow-lg backdrop-blur-sm transition hover:bg-surface-raised"
               >
                 <svg className="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
@@ -353,37 +350,37 @@ export default function HomePage() {
       </section>
 
       {/* ─── Footer ─── */}
-      <footer className="border-t border-slate-100  bg-slate-50  py-12">
+      <footer className="border-t border-border-default bg-surface py-12">
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
             <div className="flex items-center gap-2.5">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-sm font-bold text-white">
                 T
               </div>
-              <span className="text-lg font-bold text-slate-900 ">
+              <span className="text-lg font-bold text-text-primary">
                 Tutor<span className="text-brand-600">Mate</span>
               </span>
             </div>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-text-muted">
               &copy; {new Date().getFullYear()} TutorMate Nepal. All rights
               reserved.
             </p>
             <div className="flex gap-6">
               <a
                 href="#"
-                className="text-sm text-slate-400 transition hover:text-brand-600"
+                className="text-sm text-text-muted transition hover:text-brand-600"
               >
                 Privacy
               </a>
               <a
                 href="#"
-                className="text-sm text-slate-400 transition hover:text-brand-600"
+                className="text-sm text-text-muted transition hover:text-brand-600"
               >
                 Terms
               </a>
               <a
                 href="#"
-                className="text-sm text-slate-400 transition hover:text-brand-600"
+                className="text-sm text-text-muted transition hover:text-brand-600"
               >
                 Contact
               </a>

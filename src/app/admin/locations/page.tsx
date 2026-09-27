@@ -59,8 +59,12 @@ export default function LocationsPage() {
       await locationService.addDistrict(activeProvince.name, newDistrict.trim());
       setNewDistrict("");
       await fetchLocations();
-    } catch (err: any) {
-      alert(err.message || "Failed to add district");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        alert(err.message || "Failed to add district");
+      } else {
+        alert("Failed to add district");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -73,8 +77,12 @@ export default function LocationsPage() {
       await locationService.addArea(activeProvince.name, selectedDistrict, newArea.trim());
       setNewArea("");
       await fetchLocations();
-    } catch (err: any) {
-      alert(err.message || "Failed to add area");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        alert(err.message || "Failed to add area");
+      } else {
+        alert("Failed to add area");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -116,8 +124,8 @@ export default function LocationsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 ">Manage Locations</h2>
-          <p className="mt-1 text-sm text-slate-500">
+          <h2 className="text-2xl font-bold text-text-primary">Manage Locations</h2>
+          <p className="mt-1 text-sm text-text-muted">
             Configure Provinces, Districts, and Local Areas.
           </p>
         </div>
@@ -125,7 +133,7 @@ export default function LocationsPage() {
           <button
             onClick={handleSeed}
             disabled={seeding}
-            className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:opacity-50"
+            className="rounded-xl bg-surface-raised px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-600 disabled:opacity-50"
           >
             {seeding ? "Seeding..." : "Seed Default Data"}
           </button>
@@ -139,13 +147,13 @@ export default function LocationsPage() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {/* PROVINCES COLUMN */}
         <div className="flex flex-col gap-4">
-          <div className="rounded-2xl border border-slate-200  bg-white  shadow-sm overflow-hidden flex flex-col h-[600px]">
-            <div className="border-b border-slate-100  bg-slate-50  p-4">
-              <h3 className="font-semibold text-slate-800 ">1. Provinces</h3>
+          <div className="rounded-2xl border border-border-default bg-surface-raised shadow-sm overflow-hidden flex flex-col h-[600px]">
+            <div className="border-b border-border-default bg-surface p-4">
+              <h3 className="font-semibold text-text-primary">1. Provinces</h3>
             </div>
             <div className="flex-1 overflow-y-auto p-2">
               {provinces.length === 0 ? (
-                <p className="p-4 text-center text-sm text-slate-400">No data. Seed first.</p>
+                <p className="p-4 text-center text-sm text-text-muted">No data. Seed first.</p>
               ) : (
                 <ul className="space-y-1">
                   {provinces.map((prov) => (
@@ -155,10 +163,7 @@ export default function LocationsPage() {
                           setSelectedProvince(prov.name);
                           setSelectedDistrict(null); // Reset district when province changes
                         }}
-                        className={`w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition ${selectedProvince === prov.name
-                            ? "bg-brand-50 text-brand-700"
-                            : "text-slate-700  hover:bg-slate-50 "
-                          }`}
+                        className={`w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition ${selectedProvince === prov.name ? "bg-brand-50 text-brand-700" : "text-text-secondary hover:bg-surface " }`}
                       >
                         {prov.name}
                       </button>
@@ -172,13 +177,13 @@ export default function LocationsPage() {
 
         {/* DISTRICTS COLUMN */}
         <div className="flex flex-col gap-4">
-          <div className="rounded-2xl border border-slate-200  bg-white  shadow-sm overflow-hidden flex flex-col h-[600px]">
-            <div className="border-b border-slate-100  bg-slate-50  p-4">
-              <h3 className="font-semibold text-slate-800 ">2. Districts</h3>
+          <div className="rounded-2xl border border-border-default bg-surface-raised shadow-sm overflow-hidden flex flex-col h-[600px]">
+            <div className="border-b border-border-default bg-surface p-4">
+              <h3 className="font-semibold text-text-primary">2. Districts</h3>
             </div>
             <div className="flex-1 overflow-y-auto p-2">
               {!activeProvince ? (
-                <p className="p-4 text-center text-sm text-slate-400">Select a province first.</p>
+                <p className="p-4 text-center text-sm text-text-muted">Select a province first.</p>
               ) : (
                 <div className="space-y-4">
                   <div className="px-2 pt-2">
@@ -189,7 +194,7 @@ export default function LocationsPage() {
                         onChange={(e) => setNewDistrict(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && handleAddDistrict()}
                         placeholder="Add district..."
-                        className="flex-1 rounded-lg border border-slate-200  px-3 py-2 text-sm outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
+                        className="flex-1 rounded-lg border border-border-default px-3 py-2 text-sm outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
                       />
                       <button
                         onClick={handleAddDistrict}
@@ -206,16 +211,13 @@ export default function LocationsPage() {
                       <li key={districtName} className="group flex items-center justify-between rounded-xl px-2">
                         <button
                           onClick={() => setSelectedDistrict(districtName)}
-                          className={`flex-1 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition ${selectedDistrict === districtName
-                              ? "bg-brand-50 text-brand-700"
-                              : "text-slate-700  hover:bg-slate-50 "
-                            }`}
+                          className={`flex-1 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition ${selectedDistrict === districtName ? "bg-brand-50 text-brand-700" : "text-text-secondary hover:bg-surface " }`}
                         >
                           {districtName}
                         </button>
                         <button
                           onClick={() => handleDeleteDistrict(districtName)}
-                          className="invisible p-2 text-slate-400 hover:text-red-500 group-hover:visible"
+                          className="invisible p-2 text-text-muted hover:text-red-500 group-hover:visible"
                           title="Delete District"
                         >
                           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -233,13 +235,13 @@ export default function LocationsPage() {
 
         {/* AREAS COLUMN */}
         <div className="flex flex-col gap-4">
-          <div className="rounded-2xl border border-slate-200  bg-white  shadow-sm overflow-hidden flex flex-col h-[600px]">
-            <div className="border-b border-slate-100  bg-slate-50  p-4">
-              <h3 className="font-semibold text-slate-800 ">3. Local Areas / Municipalities</h3>
+          <div className="rounded-2xl border border-border-default bg-surface-raised shadow-sm overflow-hidden flex flex-col h-[600px]">
+            <div className="border-b border-border-default bg-surface p-4">
+              <h3 className="font-semibold text-text-primary">3. Local Areas / Municipalities</h3>
             </div>
             <div className="flex-1 overflow-y-auto p-2">
               {!activeDistrictData ? (
-                <p className="p-4 text-center text-sm text-slate-400">Select a district first.</p>
+                <p className="p-4 text-center text-sm text-text-muted">Select a district first.</p>
               ) : (
                 <div className="space-y-4">
                   <div className="px-2 pt-2">
@@ -250,7 +252,7 @@ export default function LocationsPage() {
                         onChange={(e) => setNewArea(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && handleAddArea()}
                         placeholder="Add local area..."
-                        className="flex-1 rounded-lg border border-slate-200  px-3 py-2 text-sm outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
+                        className="flex-1 rounded-lg border border-border-default px-3 py-2 text-sm outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
                       />
                       <button
                         onClick={handleAddArea}
@@ -264,13 +266,13 @@ export default function LocationsPage() {
 
                   <ul className="space-y-1">
                     {activeDistrictData.areas.map((area) => (
-                      <li key={area} className="group flex items-center justify-between rounded-xl px-2 py-1 hover:bg-slate-50 ">
-                        <span className="px-3 py-1.5 text-sm font-medium text-slate-700 ">
+                      <li key={area} className="group flex items-center justify-between rounded-xl px-2 py-1 hover:bg-surface">
+                        <span className="px-3 py-1.5 text-sm font-medium text-text-secondary">
                           {area}
                         </span>
                         <button
                           onClick={() => handleDeleteArea(area)}
-                          className="invisible p-2 text-slate-400 hover:text-red-500 group-hover:visible"
+                          className="invisible p-2 text-text-muted hover:text-red-500 group-hover:visible"
                           title="Delete Area"
                         >
                           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -280,7 +282,7 @@ export default function LocationsPage() {
                       </li>
                     ))}
                     {activeDistrictData.areas.length === 0 && (
-                      <p className="px-5 py-4 text-sm text-slate-400">No areas added yet.</p>
+                      <p className="px-5 py-4 text-sm text-text-muted">No areas added yet.</p>
                     )}
                   </ul>
                 </div>

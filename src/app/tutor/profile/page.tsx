@@ -148,17 +148,17 @@ export default function TutorProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-surface">
+    <div className="min-h-screen bg-surface">
       {/* Header */}
       <header className="border-b border-border-default bg-surface-raised sticky top-0 z-10">
         <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-4">
           <div className="flex items-center gap-4">
-            <Link href="/tutor/dashboard" className="text-slate-500 hover:text-brand-600 transition">
+            <Link href="/tutor/dashboard" className="text-text-muted hover:text-brand-600 transition">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </Link>
-            <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            <span className="text-lg font-bold tracking-tight text-text-primary">
               My Profile
             </span>
           </div>
@@ -177,8 +177,8 @@ export default function TutorProfilePage() {
             {fullName ? fullName[0].toUpperCase() : "T"}
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{fullName}</h1>
-            <p className="text-slate-500 dark:text-slate-400">{headline || "Tutor"}</p>
+            <h1 className="text-2xl font-bold text-text-primary">{fullName}</h1>
+            <p className="text-text-muted">{headline || "Tutor"}</p>
           </div>
         </div>
 
@@ -186,42 +186,26 @@ export default function TutorProfilePage() {
         <div className="mb-6 flex space-x-1 rounded-xl bg-surface-sunken p-1 border border-border-default">
           <button
             onClick={() => setActiveTab("personal")}
-            className={`w-full rounded-lg py-2.5 text-sm font-medium transition-all ${
-              activeTab === "personal"
-                ? "bg-surface-raised text-brand-700 dark:text-brand-300 shadow"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-            }`}
+            className={`w-full rounded-lg py-2.5 text-sm font-medium transition-all ${ activeTab === "personal" ? "bg-surface-raised text-brand-700 shadow" : "text-text-secondary hover:bg-surface-sunken " }`}
           >
             Personal
           </button>
           <button
             onClick={() => setActiveTab("education")}
-            className={`w-full rounded-lg py-2.5 text-sm font-medium transition-all ${
-              activeTab === "education"
-                ? "bg-surface-raised text-brand-700 dark:text-brand-300 shadow"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-            }`}
+            className={`w-full rounded-lg py-2.5 text-sm font-medium transition-all ${ activeTab === "education" ? "bg-surface-raised text-brand-700 shadow" : "text-text-secondary hover:bg-surface-sunken " }`}
           >
             Education
           </button>
           <button
             onClick={() => setActiveTab("pricing")}
-            className={`w-full rounded-lg py-2.5 text-sm font-medium transition-all ${
-              activeTab === "pricing"
-                ? "bg-surface-raised text-brand-700 dark:text-brand-300 shadow"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-            }`}
+            className={`w-full rounded-lg py-2.5 text-sm font-medium transition-all ${ activeTab === "pricing" ? "bg-surface-raised text-brand-700 shadow" : "text-text-secondary hover:bg-surface-sunken " }`}
           >
             Pricing
           </button>
         </div>
 
         {message.text && (
-          <div className={`mb-6 rounded-xl px-4 py-3 text-sm ${
-            message.type === "success" 
-              ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400" 
-              : "bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400"
-          }`}>
+          <div className={`mb-6 rounded-xl px-4 py-3 text-sm ${ message.type === "success" ? "bg-emerald-50 /20 text-emerald-600 " : "bg-red-50 /20 text-red-600 " }`}>
             {message.text}
           </div>
         )}
@@ -230,40 +214,36 @@ export default function TutorProfilePage() {
           
           {activeTab === "personal" && (
             <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2">
-              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200 border-b border-border-default pb-2">Personal Information</h2>
+              <h2 className="text-lg font-bold text-text-primary border-b border-border-default pb-2">Personal Information</h2>
               
               <div>
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Full Name</label>
+                <label className="block text-sm font-semibold text-text-secondary">Full Name</label>
                 <input
                   type="text"
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 dark:focus:ring-brand-900/40"
+                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Phone Number</label>
+                <label className="block text-sm font-semibold text-text-secondary">Phone Number</label>
                 <input
                   type="tel"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 dark:focus:ring-brand-900/40"
+                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Gender</label>
+                <label className="block text-sm font-semibold text-text-secondary">Gender</label>
                 <div className="mt-2 flex gap-4">
                   {(["Male", "Female", "Other"] as const).map((g) => (
                     <label
                       key={g}
-                      className={`flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${
-                        gender === g
-                          ? "border-brand-400 bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300"
-                          : "border-border-default bg-surface-sunken text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600"
-                      }`}
+                      className={`flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${ gender === g ? "border-brand-400 bg-brand-50 /20 text-brand-700 " : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
                     >
                       <input
                         type="radio"
@@ -283,33 +263,33 @@ export default function TutorProfilePage() {
 
           {activeTab === "education" && (
             <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2">
-              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200 border-b border-border-default pb-2">Professional & Education</h2>
+              <h2 className="text-lg font-bold text-text-primary border-b border-border-default pb-2">Professional & Education</h2>
               
               <div>
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Headline</label>
+                <label className="block text-sm font-semibold text-text-secondary">Headline</label>
                 <input
                   type="text"
                   required
                   value={headline}
                   onChange={(e) => setHeadline(e.target.value)}
                   placeholder="e.g. M.Sc Physics with 5+ years experience"
-                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 dark:focus:ring-brand-900/40"
+                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Bio</label>
+                <label className="block text-sm font-semibold text-text-secondary">Bio</label>
                 <textarea
                   rows={4}
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   placeholder="Tell students about your teaching methodology..."
-                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 dark:focus:ring-brand-900/40 resize-none"
+                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40 resize-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Target Levels</label>
+                <label className="block text-sm font-semibold text-text-secondary mb-2">Target Levels</label>
                 <div className="flex flex-wrap gap-2">
                   {TARGET_LEVELS.map((level) => {
                     const isSelected = selectedLevels.includes(level);
@@ -318,11 +298,7 @@ export default function TutorProfilePage() {
                         key={level}
                         type="button"
                         onClick={() => toggleLevel(level)}
-                        className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
-                          isSelected
-                            ? "border-brand-400 bg-brand-600 text-white shadow-sm"
-                            : "border-border-default bg-surface-sunken text-slate-600 dark:text-slate-400 hover:border-slate-400"
-                        }`}
+                        className={`rounded-full border px-4 py-2 text-sm font-medium transition ${ isSelected ? "border-brand-400 bg-brand-600 text-white shadow-sm" : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
                       >
                         {level}
                       </button>
@@ -332,7 +308,7 @@ export default function TutorProfilePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Subjects</label>
+                <label className="block text-sm font-semibold text-text-secondary mb-2">Subjects</label>
                 <div className="flex flex-wrap gap-2">
                   {SUBJECTS.map((subject) => {
                     const isSelected = selectedSubjects.includes(subject);
@@ -341,11 +317,7 @@ export default function TutorProfilePage() {
                         key={subject}
                         type="button"
                         onClick={() => toggleSubject(subject)}
-                        className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
-                          isSelected
-                            ? "border-emerald-400 bg-emerald-600 text-white shadow-sm"
-                            : "border-border-default bg-surface-sunken text-slate-600 dark:text-slate-400 hover:border-slate-400"
-                        }`}
+                        className={`rounded-full border px-4 py-2 text-sm font-medium transition ${ isSelected ? "border-emerald-400 bg-emerald-600 text-white shadow-sm" : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
                       >
                         {subject}
                       </button>
@@ -358,18 +330,18 @@ export default function TutorProfilePage() {
 
           {activeTab === "pricing" && (
             <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2">
-              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200 border-b border-border-default pb-2">Pricing</h2>
+              <h2 className="text-lg font-bold text-text-primary border-b border-border-default pb-2">Pricing</h2>
               
               <div>
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Expected Monthly Rate (NPR)</label>
+                <label className="block text-sm font-semibold text-text-secondary">Expected Monthly Rate (NPR)</label>
                 <input
                   type="number"
                   value={monthlyRate}
                   onChange={(e) => setMonthlyRate(e.target.value)}
                   placeholder="e.g. 15000"
-                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 dark:focus:ring-brand-900/40"
+                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
                 />
-                <p className="mt-2 text-sm text-slate-500">
+                <p className="mt-2 text-sm text-text-muted">
                   This helps match you with students who have a similar budget.
                 </p>
               </div>
@@ -382,7 +354,7 @@ export default function TutorProfilePage() {
               disabled={saving}
               className="flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/25 transition hover:bg-brand-700 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {saving && <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />}
+              {saving && <div className="h-4 w-4 animate-spin rounded-full border-2 border-border-default border-t-transparent" />}
               Save Changes
             </button>
           </div>

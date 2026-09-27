@@ -124,7 +124,7 @@ export default function TutorDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 ">
+    <div className="min-h-screen bg-surface">
       {/* Header */}
       <header className="border-b border-border-default bg-surface-raised sticky top-0 z-10">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
@@ -132,12 +132,12 @@ export default function TutorDashboardPage() {
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-lg font-bold text-white shadow-md shadow-brand-500/25">
               T
             </div>
-            <span className="text-lg font-bold tracking-tight text-slate-900">
+            <span className="text-lg font-bold tracking-tight text-text-primary">
               Job <span className="text-brand-600">Board</span>
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm font-medium text-slate-600 hidden sm:inline-block">
+            <span className="text-sm font-medium text-text-secondary hidden sm:inline-block">
               {userData?.fullName}
             </span>
             <Link href="/tutor/profile" className="text-sm font-medium text-brand-600 hover:text-brand-700 transition">
@@ -153,23 +153,23 @@ export default function TutorDashboardPage() {
         <div className="flex flex-col gap-8 md:flex-row">
           {/* Filters Sidebar */}
           <div className="w-full shrink-0 md:w-64 space-y-6">
-            <div className="rounded-2xl border border-slate-200  bg-white  p-5 shadow-sm sticky top-24">
+            <div className="rounded-2xl border border-border-default bg-surface-raised p-5 shadow-sm sticky top-24">
               <div className="flex items-center gap-2 mb-4">
-                <svg className="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="h-5 w-5 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                 </svg>
-                <h2 className="font-bold text-slate-800 ">Filters</h2>
+                <h2 className="font-bold text-text-primary">Filters</h2>
               </div>
 
               <div className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-bold text-text-muted uppercase tracking-wider mb-2">
                     Subject
                   </label>
                   <select
                     value={subjectFilter}
                     onChange={(e) => setSubjectFilter(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200  bg-slate-50  px-3 py-2 text-sm outline-none transition focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
+                    className="w-full rounded-xl border border-border-default bg-surface px-3 py-2 text-sm outline-none transition focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
                   >
                     <option value="">All Subjects</option>
                     {SUBJECTS.map((s) => (
@@ -179,7 +179,7 @@ export default function TutorDashboardPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-bold text-text-muted uppercase tracking-wider mb-2">
                     Location
                   </label>
                   <LocationSelector
@@ -194,7 +194,7 @@ export default function TutorDashboardPage() {
                       setLocationFilter({ province: "", district: "", area: "" });
                       setSubjectFilter("");
                     }}
-                    className="w-full rounded-xl border border-slate-200  bg-white  py-2 text-sm font-semibold text-slate-600  transition hover:bg-slate-50 "
+                    className="w-full rounded-xl border border-border-default bg-surface-raised py-2 text-sm font-semibold text-text-secondary transition hover:bg-surface"
                   >
                     Clear Filters
                   </button>
@@ -206,10 +206,10 @@ export default function TutorDashboardPage() {
           {/* Job List */}
           <div className="flex-1">
             <div className="mb-6 flex items-center justify-between">
-              <h1 className="text-2xl font-bold text-slate-900 ">Available Tuitions</h1>
+              <h1 className="text-2xl font-bold text-text-primary">Available Tuitions</h1>
               <button 
                 onClick={fetchJobs}
-                className="rounded-xl bg-white  border border-slate-200  p-2 text-slate-500 transition hover:bg-slate-50  hover:text-brand-600 shadow-sm"
+                className="rounded-xl bg-surface-raised border border-border-default p-2 text-text-muted transition hover:bg-surface hover:text-brand-600 shadow-sm"
                 title="Refresh Jobs"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -225,18 +225,18 @@ export default function TutorDashboardPage() {
             {loading ? (
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-40 rounded-2xl bg-white  shadow-sm border border-slate-100  animate-pulse"></div>
+                  <div key={i} className="h-40 rounded-2xl bg-surface-raised shadow-sm border border-border-default animate-pulse"></div>
                 ))}
               </div>
             ) : filteredJobs.length === 0 ? (
-              <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200  border-dashed bg-white  py-20 text-center">
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-50 ">
-                  <svg className="h-8 w-8 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="flex flex-col items-center justify-center rounded-2xl border border-border-default border-dashed bg-surface-raised py-20 text-center">
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface">
+                  <svg className="h-8 w-8 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-bold text-slate-800 ">No tuitions found</h3>
-                <p className="mt-1 text-sm text-slate-500 max-w-sm">
+                <h3 className="text-lg font-bold text-text-primary">No tuitions found</h3>
+                <p className="mt-1 text-sm text-text-muted max-w-sm">
                   Try adjusting your filters or check back later for new tutoring opportunities in your area.
                 </p>
               </div>
@@ -245,7 +245,7 @@ export default function TutorDashboardPage() {
                 {filteredJobs.map((job) => (
                   <div 
                     key={job.jobId} 
-                    className="group rounded-2xl border border-slate-200  bg-white  p-5 shadow-sm transition hover:border-brand-300 hover:shadow-md"
+                    className="group rounded-2xl border border-border-default bg-surface-raised p-5 shadow-sm transition hover:border-brand-300 hover:shadow-md"
                   >
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       {/* Left side content */}
@@ -254,15 +254,15 @@ export default function TutorDashboardPage() {
                           <span className="inline-flex rounded-full bg-brand-50 px-2 py-0.5 text-xs font-bold text-brand-700">
                             {job.grade}
                           </span>
-                          <span className="inline-flex rounded-full bg-slate-100  px-2 py-0.5 text-xs font-medium text-slate-600 ">
+                          <span className="inline-flex rounded-full bg-surface-sunken px-2 py-0.5 text-xs font-medium text-text-secondary">
                             {job.tuitionMode}
                           </span>
                         </div>
-                        <h3 className="text-lg font-bold text-slate-900  mt-2 line-clamp-1">
+                        <h3 className="text-lg font-bold text-text-primary mt-2 line-clamp-1">
                           {job.subjects.join(", ")}
                         </h3>
                         
-                        <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-slate-500">
+                        <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-text-muted">
                           <div className="flex items-center gap-1.5">
                             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -280,13 +280,13 @@ export default function TutorDashboardPage() {
                       </div>
 
                       {/* Right side content (Budget & Action) */}
-                      <div className="flex flex-row items-center justify-between sm:flex-col sm:items-end sm:gap-4 border-t border-slate-100  sm:border-0 pt-4 sm:pt-0">
+                      <div className="flex flex-row items-center justify-between sm:flex-col sm:items-end sm:gap-4 border-t border-border-default sm:border-0 pt-4 sm:pt-0">
                         <div className="text-left sm:text-right">
-                          <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">Budget</p>
+                          <p className="text-xs font-medium text-text-muted uppercase tracking-wide">Budget</p>
                           <p className="text-xl font-black text-emerald-600">
                             Rs. {job.budgetNpr.toLocaleString("en-NP")}
                           </p>
-                          <p className="text-xs text-slate-400">/ month</p>
+                          <p className="text-xs text-text-muted">/ month</p>
                         </div>
                         <button className="rounded-xl bg-brand-50 px-5 py-2.5 text-sm font-bold text-brand-700 transition hover:bg-brand-600 hover:text-white">
                           Apply Now

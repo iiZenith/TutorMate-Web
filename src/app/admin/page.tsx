@@ -57,10 +57,10 @@ export default function AdminDashboardPage() {
     <div className="space-y-8">
       {/* Heading */}
       <div>
-        <h2 className="text-2xl font-bold text-slate-900 ">
+        <h2 className="text-2xl font-bold text-text-primary">
           Welcome back, Admin 👋
         </h2>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-sm text-text-muted">
           Here&apos;s an overview of your TutorMate platform.
         </p>
       </div>
@@ -70,34 +70,30 @@ export default function AdminDashboardPage() {
         {STATS.map((stat) => (
           <div
             key={stat.label}
-            className="rounded-2xl border border-white  bg-white  p-6 shadow-sm transition-all hover:shadow-md"
+            className="rounded-2xl border border-border-default bg-surface-raised p-6 shadow-sm transition-all hover:shadow-md"
           >
             <div className="flex items-center justify-between">
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
                 {stat.icon}
               </div>
               <span
-                className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                  stat.up
-                    ? "bg-emerald-50 text-emerald-600"
-                    : "bg-red-50 text-red-500"
-                }`}
+                className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${ stat.up ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-500" }`}
               >
                 {stat.up ? "↑" : "↓"} {stat.change}
               </span>
             </div>
-            <p className="mt-4 text-2xl font-bold text-slate-900 ">
+            <p className="mt-4 text-2xl font-bold text-text-primary">
               {stat.value}
             </p>
-            <p className="mt-1 text-sm text-slate-500">{stat.label}</p>
+            <p className="mt-1 text-sm text-text-muted">{stat.label}</p>
           </div>
         ))}
       </div>
 
       {/* Quick actions */}
-      <div className="rounded-2xl border border-white  bg-white  p-8 shadow-sm">
-        <h3 className="text-lg font-bold text-slate-900 ">Quick Actions</h3>
-        <p className="mt-1 text-sm text-slate-500">
+      <div className="rounded-2xl border border-border-default bg-surface-raised p-8 shadow-sm">
+        <h3 className="text-lg font-bold text-text-primary">Quick Actions</h3>
+        <p className="mt-1 text-sm text-text-muted">
           Manage your platform configuration.
         </p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

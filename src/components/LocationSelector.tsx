@@ -61,6 +61,7 @@ export default function LocationSelector({ value, onChange, className = "" }: Lo
   }, []);
 
   // Sync external value changes to local state
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (value) {
       if (value.province !== selectedProvince) setSelectedProvince(value.province);
@@ -102,9 +103,9 @@ export default function LocationSelector({ value, onChange, className = "" }: Lo
   if (loading) {
     return (
       <div className={`animate-pulse space-y-4 ${className}`}>
-        <div className="h-10 rounded-xl bg-slate-200 "></div>
-        <div className="h-10 rounded-xl bg-slate-200 "></div>
-        <div className="h-10 rounded-xl bg-slate-200 "></div>
+        <div className="h-10 rounded-xl bg-surface-sunken"></div>
+        <div className="h-10 rounded-xl bg-surface-sunken"></div>
+        <div className="h-10 rounded-xl bg-surface-sunken"></div>
       </div>
     );
   }
@@ -113,13 +114,13 @@ export default function LocationSelector({ value, onChange, className = "" }: Lo
     <div className={`space-y-4 ${className}`}>
       {/* Province Dropdown */}
       <div>
-        <label className="mb-1 block text-sm font-semibold text-slate-700 ">
+        <label className="mb-1 block text-sm font-semibold text-text-secondary">
           Province
         </label>
         <select
           value={selectedProvince}
           onChange={handleProvinceChange}
-          className="w-full appearance-none rounded-xl border border-slate-200  bg-slate-50  px-4 py-2.5 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+          className="w-full appearance-none rounded-xl border border-border-default bg-surface px-4 py-2.5 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
         >
           <option value="">Select Province</option>
           {provinces.map((prov) => (
@@ -132,14 +133,14 @@ export default function LocationSelector({ value, onChange, className = "" }: Lo
 
       {/* District Dropdown */}
       <div>
-        <label className="mb-1 block text-sm font-semibold text-slate-700 ">
+        <label className="mb-1 block text-sm font-semibold text-text-secondary">
           District
         </label>
         <select
           value={selectedDistrict}
           onChange={handleDistrictChange}
           disabled={!selectedProvince}
-          className="w-full appearance-none rounded-xl border border-slate-200  bg-slate-50  px-4 py-2.5 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 disabled:cursor-not-allowed disabled:bg-slate-100  disabled:opacity-70"
+          className="w-full appearance-none rounded-xl border border-border-default bg-surface px-4 py-2.5 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 disabled:cursor-not-allowed disabled:bg-surface-sunken disabled:opacity-70"
         >
           <option value="">Select District</option>
           {districtList.map((district) => (
@@ -152,14 +153,14 @@ export default function LocationSelector({ value, onChange, className = "" }: Lo
 
       {/* Area Dropdown */}
       <div>
-        <label className="mb-1 block text-sm font-semibold text-slate-700 ">
+        <label className="mb-1 block text-sm font-semibold text-text-secondary">
           Local Area / Municipality
         </label>
         <select
           value={selectedArea}
           onChange={handleAreaChange}
           disabled={!selectedDistrict}
-          className="w-full appearance-none rounded-xl border border-slate-200  bg-slate-50  px-4 py-2.5 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 disabled:cursor-not-allowed disabled:bg-slate-100  disabled:opacity-70"
+          className="w-full appearance-none rounded-xl border border-border-default bg-surface px-4 py-2.5 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 disabled:cursor-not-allowed disabled:bg-surface-sunken disabled:opacity-70"
         >
           <option value="">Select Area</option>
           {areaList.map((area) => (

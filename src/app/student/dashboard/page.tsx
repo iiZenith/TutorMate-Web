@@ -84,7 +84,7 @@ export default function StudentDashboardPage() {
   const firstName = userData?.fullName?.split(" ")[0] || "Student";
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-surface">
+    <div className="min-h-screen bg-surface">
       {/* Header */}
       <header className="border-b border-border-default bg-surface-raised sticky top-0 z-10">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
@@ -92,7 +92,7 @@ export default function StudentDashboardPage() {
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-lg font-bold text-white shadow-md shadow-brand-500/25">
               T
             </div>
-            <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            <span className="text-lg font-bold tracking-tight text-text-primary">
               Student <span className="text-brand-600">Dashboard</span>
             </span>
           </div>
@@ -106,10 +106,10 @@ export default function StudentDashboardPage() {
       <main className="mx-auto max-w-5xl px-4 py-8 space-y-10">
         {/* Greeting & Header */}
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+          <h1 className="text-3xl font-bold text-text-primary">
             Namaste, {firstName} 👋
           </h1>
-          <p className="mt-2 text-slate-500 dark:text-slate-400 text-lg">
+          <p className="mt-2 text-text-muted text-lg">
             Find a Home Tutor in Kathmandu Valley
           </p>
         </div>
@@ -124,7 +124,7 @@ export default function StudentDashboardPage() {
           </div>
           <Link
             href="/student/request"
-            className="shrink-0 flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 font-bold text-brand-600 transition hover:bg-brand-50 shadow-md"
+            className="shrink-0 flex items-center justify-center gap-2 rounded-xl bg-surface-raised px-6 py-3.5 font-bold text-brand-600 transition hover:bg-brand-50 shadow-md"
           >
             Post a Request
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -135,7 +135,7 @@ export default function StudentDashboardPage() {
 
         {/* My Requests Section */}
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">My Requests</h2>
+          <h2 className="text-2xl font-bold text-text-primary mb-6">My Requests</h2>
           
           {loading ? (
              <div className="space-y-4">
@@ -146,12 +146,12 @@ export default function StudentDashboardPage() {
           ) : myRequests.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-2xl border border-border-default border-dashed bg-surface-raised py-16 text-center">
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface-sunken">
-                <svg className="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-8 w-8 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">No requests yet</h3>
-              <p className="mt-1 text-sm text-slate-500 mb-4 max-w-sm">
+              <h3 className="text-lg font-bold text-text-primary">No requests yet</h3>
+              <p className="mt-1 text-sm text-text-muted mb-4 max-w-sm">
                 You haven&apos;t requested any tutors yet.
               </p>
               <Link
@@ -167,16 +167,16 @@ export default function StudentDashboardPage() {
                 <div key={req.jobId} className="rounded-2xl border border-border-default bg-surface-raised p-6 shadow-sm">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <span className="inline-flex rounded-full bg-brand-50 dark:bg-brand-900/20 px-2 py-0.5 text-xs font-bold text-brand-700 dark:text-brand-300 mb-2">
+                      <span className="inline-flex rounded-full bg-brand-50 /20 px-2 py-0.5 text-xs font-bold text-brand-700 mb-2">
                         {req.grade}
                       </span>
-                      <h3 className="font-bold text-lg text-slate-900 dark:text-slate-100">{req.subjects.join(", ")}</h3>
+                      <h3 className="font-bold text-lg text-text-primary">{req.subjects.join(", ")}</h3>
                     </div>
-                    <span className="inline-flex rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                    <span className="inline-flex rounded-full bg-emerald-50 /20 px-2 py-0.5 text-xs font-medium text-emerald-600">
                       Open
                     </span>
                   </div>
-                  <div className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
+                  <div className="space-y-2 text-sm text-text-muted">
                     <div className="flex items-center gap-2">
                       <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                       {req.area}, {req.district}
@@ -194,15 +194,15 @@ export default function StudentDashboardPage() {
 
         {/* Tutor Directory (Empty State) */}
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">Tutor Directory</h2>
+          <h2 className="text-2xl font-bold text-text-primary mb-6">Tutor Directory</h2>
           <div className="flex flex-col items-center justify-center rounded-2xl border border-border-default border-dashed bg-surface-raised py-16 text-center">
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface-sunken">
-                <svg className="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-8 w-8 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">Tutor directory is currently refreshing.</h3>
-              <p className="mt-1 text-sm text-slate-500 mb-4 max-w-sm">
+              <h3 className="text-lg font-bold text-text-primary">Tutor directory is currently refreshing.</h3>
+              <p className="mt-1 text-sm text-text-muted mb-4 max-w-sm">
                 Check back later to see featured tutors in your area.
               </p>
             </div>

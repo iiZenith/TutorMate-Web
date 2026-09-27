@@ -12,7 +12,6 @@ export default function RootLoginPage() {
   const { signIn, resetPassword, user, userData, loading: authLoading } = useAuth();
   const router = useRouter();
 
-  const [mounted, setMounted] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +19,7 @@ export default function RootLoginPage() {
   const [loading, setLoading] = useState(false);
   const [resetMessage, setResetMessage] = useState("");
 
-  useEffect(() => setMounted(true), []);
+
 
   // Smart Role-Based Routing
   useEffect(() => {
@@ -73,7 +72,7 @@ export default function RootLoginPage() {
   if (authLoading || (user && !error)) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-surface">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-brand-600" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-border-default border-t-brand-600" />
       </div>
     );
   }
@@ -84,7 +83,7 @@ export default function RootLoginPage() {
       <div className="absolute top-4 right-4 flex items-center gap-4">
         <Link
           href="/welcome"
-          className="text-sm font-medium text-slate-500 hover:text-brand-600 transition"
+          className="text-sm font-medium text-text-muted hover:text-brand-600 transition"
         >
           About TutorMate
         </Link>
@@ -97,21 +96,21 @@ export default function RootLoginPage() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-3xl font-bold text-white shadow-xl shadow-brand-500/30">
             T
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-2xl font-bold tracking-tight text-text-primary">
             Welcome Back
           </h1>
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-sm text-text-muted">
             Sign in to continue
           </p>
         </div>
 
         {/* Floating Card */}
-        <div className="rounded-3xl border border-border-default bg-surface-raised p-8 shadow-2xl shadow-slate-200/50 dark:shadow-none backdrop-blur-xl">
+        <div className="rounded-3xl border border-border-default bg-surface-raised p-8 shadow-2xl shadow-slate-200/50 backdrop-blur-xl">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-semibold text-slate-700 "
+                className="block text-sm font-semibold text-text-secondary"
               >
                 Email
               </label>
@@ -122,14 +121,14 @@ export default function RootLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="mt-1.5 w-full rounded-xl border border-slate-200  bg-slate-50  px-4 py-3 text-sm text-slate-900  outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 "
+                className="mt-1.5 w-full rounded-xl border border-border-default bg-surface px-4 py-3 text-sm text-text-primary outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
               />
             </div>
 
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-semibold text-slate-700 "
+                className="block text-sm font-semibold text-text-secondary"
               >
                 Password
               </label>
@@ -140,7 +139,7 @@ export default function RootLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
-                className="mt-1.5 w-full rounded-xl border border-slate-200  bg-slate-50  px-4 py-3 text-sm text-slate-900  outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 "
+                className="mt-1.5 w-full rounded-xl border border-border-default bg-surface px-4 py-3 text-sm text-text-primary outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
               />
             </div>
 
@@ -156,13 +155,13 @@ export default function RootLoginPage() {
             </div>
 
             {error && (
-              <div className="rounded-xl bg-red-50 dark:bg-red-900/20 px-4 py-3 text-sm text-red-600 dark:text-red-400">
+              <div className="rounded-xl bg-red-50 /20 px-4 py-3 text-sm text-red-600">
                 {error}
               </div>
             )}
 
             {resetMessage && (
-              <div className="rounded-xl bg-emerald-50 dark:bg-emerald-900/20 px-4 py-3 text-sm text-emerald-600 dark:text-emerald-400">
+              <div className="rounded-xl bg-emerald-50 /20 px-4 py-3 text-sm text-emerald-600">
                 {resetMessage}
               </div>
             )}
@@ -173,7 +172,7 @@ export default function RootLoginPage() {
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 px-4 py-3.5 text-base font-semibold text-white shadow-lg shadow-brand-500/30 transition hover:shadow-brand-500/50 hover:brightness-110 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading && (
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-border-default border-t-transparent" />
               )}
               Log In
             </button>
@@ -181,19 +180,19 @@ export default function RootLoginPage() {
 
           {/* Links for new users */}
           <div className="mt-8 pt-6 border-t border-border-default">
-            <p className="text-center text-sm text-slate-500 mb-4">
-              Don't have an account?
+            <p className="text-center text-sm text-text-muted mb-4">
+              Don&apos;t have an account?
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/signup/student"
-                className="flex flex-1 items-center justify-center rounded-xl border border-border-default bg-surface-sunken px-4 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 transition hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="flex flex-1 items-center justify-center rounded-xl border border-border-default bg-surface-sunken px-4 py-2.5 text-sm font-semibold text-text-secondary transition hover:bg-surface-sunken"
               >
                 Create Student Account
               </Link>
               <Link
                 href="/signup/tutor"
-                className="flex flex-1 items-center justify-center rounded-xl border border-brand-200 dark:border-brand-900 bg-brand-50 dark:bg-brand-900/20 px-4 py-2.5 text-sm font-semibold text-brand-700 dark:text-brand-300 transition hover:bg-brand-100 dark:hover:bg-brand-900/40"
+                className="flex flex-1 items-center justify-center rounded-xl border border-brand-200 bg-brand-50 /20 px-4 py-2.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-100 /40"
               >
                 Apply as Tutor
               </Link>

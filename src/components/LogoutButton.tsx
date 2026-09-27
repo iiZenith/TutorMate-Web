@@ -37,10 +37,10 @@ export default function LogoutButton({ className = "", variant = "full" }: Logou
         onClick={handleLogout}
         title="Sign out"
         disabled={loading}
-        className={`rounded-lg p-1.5 text-slate-400 transition hover:bg-red-50 hover:text-red-500 disabled:opacity-50 ${className}`}
+        className={`rounded-lg p-1.5 text-text-muted transition hover:bg-red-50 hover:text-red-500 disabled:opacity-50 ${className}`}
       >
         {loading ? (
-          <div className="h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-red-500" />
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-border-default border-t-red-500" />
         ) : (
           icon
         )}
@@ -52,10 +52,10 @@ export default function LogoutButton({ className = "", variant = "full" }: Logou
     <button
       onClick={handleLogout}
       disabled={loading}
-      className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-500 transition-all hover:bg-red-50 hover:text-red-600   disabled:opacity-50 ${className}`}
+      className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-text-muted transition-all hover:bg-red-50 hover:text-red-600 disabled:opacity-50 ${className}`}
     >
       {loading ? (
-        <div className="h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-red-500" />
+        <div className="h-5 w-5 animate-spin rounded-full border-2 border-border-default border-t-red-500" />
       ) : (
         icon
       )}

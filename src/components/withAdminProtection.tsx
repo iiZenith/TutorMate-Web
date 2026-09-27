@@ -41,10 +41,10 @@ export default function withAdminProtection<P extends object>(
     // Show spinner while auth state is resolving
     if (loading) {
       return (
-        <div className="flex min-h-screen items-center justify-center bg-slate-50 ">
+        <div className="flex min-h-screen items-center justify-center bg-surface">
           <div className="flex flex-col items-center gap-4">
             <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600" />
-            <p className="text-sm text-slate-500">Verifying access…</p>
+            <p className="text-sm text-text-muted">Verifying access…</p>
           </div>
         </div>
       );
@@ -55,20 +55,20 @@ export default function withAdminProtection<P extends object>(
       if (!hasRedirected) {
         // Safety: shouldn't normally reach here, but guard anyway
         return (
-          <div className="flex min-h-screen items-center justify-center bg-slate-50 ">
+          <div className="flex min-h-screen items-center justify-center bg-surface">
             <div className="flex flex-col items-center gap-4">
               <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600" />
-              <p className="text-sm text-slate-500">Redirecting…</p>
+              <p className="text-sm text-text-muted">Redirecting…</p>
             </div>
           </div>
         );
       }
       // Already redirected, show spinner until navigation completes
       return (
-        <div className="flex min-h-screen items-center justify-center bg-slate-50 ">
+        <div className="flex min-h-screen items-center justify-center bg-surface">
           <div className="flex flex-col items-center gap-4">
             <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600" />
-            <p className="text-sm text-slate-500">Redirecting…</p>
+            <p className="text-sm text-text-muted">Redirecting…</p>
           </div>
         </div>
       );

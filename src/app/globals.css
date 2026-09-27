@@ -26,26 +26,55 @@
   --color-surface-raised: var(--surface-raised);
   --color-surface-sunken: var(--surface-sunken);
   --color-border-default: var(--border-default);
+
+  /* text */
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-inverse: var(--text-inverse);
+
+  /* inputs */
+  --color-input-bg: var(--input-bg);
+  --color-input-border: var(--input-border);
+  --color-input-ring: var(--input-ring);
 }
 
 /* ─────────────── Light Theme (default) ─────────────── */
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --surface: #f8fafc;
-  --surface-raised: #ffffff;
-  --surface-sunken: #f1f5f9;
-  --border-default: #e2e8f0;
+  --background: #f8fafc; /* slate-50 */
+  --foreground: #0f172a; /* slate-900 */
+  --surface: #f1f5f9; /* slate-100 */
+  --surface-raised: #ffffff; /* white */
+  --surface-sunken: #e2e8f0; /* slate-200 */
+  --border-default: #cbd5e1; /* slate-300 */
+
+  --text-primary: #0f172a; /* slate-900 */
+  --text-secondary: #334155; /* slate-700 */
+  --text-muted: #64748b; /* slate-500 */
+  --text-inverse: #ffffff;
+
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+  --input-ring: #93c5fd; /* brand-300 */
 }
 
 /* ─────────────── Dark Theme ─────────────── */
 :root.dark {
-  --background: #0f172a;
-  --foreground: #f1f5f9;
-  --surface: #0f172a;
-  --surface-raised: #1e293b;
-  --surface-sunken: #0c1322;
-  --border-default: #334155;
+  --background: #020617; /* slate-950 */
+  --foreground: #f8fafc; /* slate-50 */
+  --surface: #0f172a; /* slate-900 */
+  --surface-raised: #1e293b; /* slate-800 */
+  --surface-sunken: #020617; /* slate-950 */
+  --border-default: #334155; /* slate-700 */
+
+  --text-primary: #f8fafc; /* slate-50 */
+  --text-secondary: #cbd5e1; /* slate-300 */
+  --text-muted: #94a3b8; /* slate-400 */
+  --text-inverse: #020617; /* slate-950 */
+
+  --input-bg: #0f172a; /* slate-900 */
+  --input-border: #334155; /* slate-700 */
+  --input-ring: #1e40af; /* brand-800 */
 }
 
 /* ─────────────── Base ─────────────── */
@@ -77,9 +106,7 @@ html {
 }
 
 /* ─────────────── Dark mode utility overrides ─────────────── */
-/* These map .dark class to override light-only hardcoded colors */
-.dark .dark\:bg-slate-900 { background-color: #0f172a; }
-.dark .dark\:text-slate-100 { color: #f1f5f9; }
+/* Legacy overrides removed as we transition to full semantic tokens */
 
 /* ─────────────── Animations ─────────────── */
 @keyframes float {
