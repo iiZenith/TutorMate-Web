@@ -7,6 +7,8 @@ import { db } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
 import LocationSelector, { LocationSelection } from "@/components/LocationSelector";
 import Link from "next/link";
+import LogoutButton from "@/components/LogoutButton";
+import ThemeToggle from "@/components/ThemeToggle";
 
 /* ═══════════════════════════════════════════════════
    Student — Hire a Tutor (Job Request Form)
@@ -49,7 +51,7 @@ export default function HireTutorPage() {
   // Redirect if not logged in
   useEffect(() => {
     if (!authLoading && !user) {
-      router.replace("/login");
+      router.replace("/");
     }
   }, [authLoading, user, router]);
 
@@ -131,23 +133,23 @@ export default function HireTutorPage() {
   /* ── Success state ── */
   if (success) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-brand-50 via-white to-surface p-4">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-brand-50 via-surface-raised to-surface p-4">
         <div className="w-full max-w-md text-center">
-          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100">
-            <svg className="h-10 w-10 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30">
+            <svg className="h-10 w-10 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-slate-900">Request Posted!</h2>
-          <p className="mt-2 text-sm text-slate-500">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Request Posted!</h2>
+          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
             Your tutor request has been posted successfully. Qualified tutors in your area will be able to see and respond to it.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
-              href="/"
+              href="/student/dashboard"
               className="rounded-xl bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700"
             >
-              Back to Home
+              Back to Dashboard
             </Link>
             <button
               onClick={() => {
@@ -159,7 +161,7 @@ export default function HireTutorPage() {
                 setDaysPerWeek(5);
                 setSalary(5000);
               }}
-              className="rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              className="rounded-xl border border-border-default bg-surface-raised px-6 py-3 text-sm font-semibold text-slate-700 dark:text-slate-200 transition hover:bg-slate-50 dark:hover:bg-slate-800"
             >
               Post Another
             </button>
@@ -179,40 +181,38 @@ export default function HireTutorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-brand-50 via-white to-surface">
+    <div className="min-h-screen bg-gradient-to-br from-brand-50 via-surface-raised to-surface">
       {/* Top bar */}
-      <header className="border-b border-slate-100 bg-white/80 backdrop-blur-sm">
+      <header className="border-b border-border-default bg-surface-raised backdrop-blur-sm sticky top-0 z-10">
         <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-4">
-          <Link href="/" className="inline-flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-lg font-bold text-white shadow-md shadow-brand-500/25">
-              T
-            </div>
-            <span className="text-lg font-bold tracking-tight text-slate-900">
-              Tutor<span className="text-brand-600">Mate</span>
+          <Link href="/student/dashboard" className="inline-flex items-center gap-2">
+            <svg className="h-6 w-6 text-slate-500 hover:text-brand-600 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100 hidden sm:block">
+              Back to Dashboard
             </span>
           </Link>
-          <Link
-            href="/"
-            className="text-sm font-medium text-slate-400 transition hover:text-brand-600"
-          >
-            ← Back
-          </Link>
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <LogoutButton variant="text" className="!p-0 hover:!bg-transparent" />
+          </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-3xl px-4 py-10">
         {/* Heading */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-slate-900">Hire a Tutor</h1>
-          <p className="mt-1 text-sm text-slate-500">
+        <div className="mb-8 text-center sm:text-left">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Hire a Tutor</h1>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Fill in the details below to find the perfect tutor match.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* ─── 1. Grade ─── */}
-          <section className="rounded-2xl border border-white bg-white p-6 shadow-sm">
-            <h3 className="text-sm font-semibold text-slate-800">
+          <section className="rounded-2xl border border-border-default bg-surface-raised p-6 shadow-sm dark:shadow-none">
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
               1. Student Grade / Class <span className="text-red-400">*</span>
             </h3>
             <p className="mt-1 text-xs text-slate-400">Grades 1 through 10 only</p>
@@ -224,8 +224,8 @@ export default function HireTutorPage() {
                   onClick={() => setGrade(g)}
                   className={`rounded-xl border px-3 py-2.5 text-xs font-semibold transition ${
                     grade === g
-                      ? "border-brand-400 bg-brand-50 text-brand-700"
-                      : "border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300"
+                      ? "border-brand-400 bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300"
+                      : "border-border-default bg-surface-sunken text-slate-600 dark:text-slate-400 hover:border-slate-400"
                   }`}
                 >
                   {g.replace("Grade ", "")}
@@ -235,8 +235,8 @@ export default function HireTutorPage() {
           </section>
 
           {/* ─── 2. Subjects ─── */}
-          <section className="rounded-2xl border border-white bg-white p-6 shadow-sm">
-            <h3 className="text-sm font-semibold text-slate-800">
+          <section className="rounded-2xl border border-border-default bg-surface-raised p-6 shadow-sm dark:shadow-none">
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
               2. Subjects Required <span className="text-red-400">*</span>
             </h3>
             <p className="mt-1 text-xs text-slate-400">Select one or more subjects</p>
@@ -251,7 +251,7 @@ export default function HireTutorPage() {
                     className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
                       isSelected
                         ? "border-brand-400 bg-brand-600 text-white shadow-sm"
-                        : "border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300 hover:bg-slate-100"
+                        : "border-border-default bg-surface-sunken text-slate-600 dark:text-slate-400 hover:border-slate-400"
                     }`}
                   >
                     {isSelected && (
@@ -267,8 +267,8 @@ export default function HireTutorPage() {
           </section>
 
           {/* ─── 3. Location ─── */}
-          <section className="rounded-2xl border border-white bg-white p-6 shadow-sm">
-            <h3 className="text-sm font-semibold text-slate-800">
+          <section className="rounded-2xl border border-border-default bg-surface-raised p-6 shadow-sm dark:shadow-none">
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
               3. Your Location <span className="text-red-400">*</span>
             </h3>
             <p className="mt-1 mb-4 text-xs text-slate-400">Select province, then district, then local area</p>
@@ -279,13 +279,13 @@ export default function HireTutorPage() {
           </section>
 
           {/* ─── 4. Tuition Preferences ─── */}
-          <section className="rounded-2xl border border-white bg-white p-6 shadow-sm">
-            <h3 className="mb-4 text-sm font-semibold text-slate-800">
+          <section className="rounded-2xl border border-border-default bg-surface-raised p-6 shadow-sm dark:shadow-none">
+            <h3 className="mb-4 text-sm font-semibold text-slate-800 dark:text-slate-200">
               4. Tuition Preferences
             </h3>
 
             {/* Mode */}
-            <label className="mb-2 block text-xs font-semibold text-slate-500 uppercase tracking-wide">
+            <label className="mb-2 block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
               Mode
             </label>
             <div className="flex gap-2">
@@ -296,8 +296,8 @@ export default function HireTutorPage() {
                   onClick={() => setTuitionMode(mode)}
                   className={`flex-1 rounded-xl border px-3 py-2.5 text-sm font-medium transition ${
                     tuitionMode === mode
-                      ? "border-brand-400 bg-brand-50 text-brand-700"
-                      : "border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300"
+                      ? "border-brand-400 bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300"
+                      : "border-border-default bg-surface-sunken text-slate-600 dark:text-slate-400 hover:border-slate-400"
                   }`}
                 >
                   {mode}
@@ -306,13 +306,13 @@ export default function HireTutorPage() {
             </div>
 
             {/* Days per week */}
-            <label className="mt-6 mb-2 block text-xs font-semibold text-slate-500 uppercase tracking-wide">
+            <label className="mt-6 mb-2 block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
               Days per Week
             </label>
             <select
               value={daysPerWeek}
               onChange={(e) => setDaysPerWeek(Number(e.target.value))}
-              className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+              className="w-full appearance-none rounded-xl border border-border-default bg-surface-sunken px-4 py-2.5 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 dark:focus:ring-brand-900/40"
             >
               {[1, 2, 3, 4, 5, 6, 7].map((d) => (
                 <option key={d} value={d}>
@@ -323,14 +323,14 @@ export default function HireTutorPage() {
           </section>
 
           {/* ─── 5. Budget ─── */}
-          <section className="rounded-2xl border border-white bg-white p-6 shadow-sm">
-            <h3 className="text-sm font-semibold text-slate-800">
+          <section className="rounded-2xl border border-border-default bg-surface-raised p-6 shadow-sm dark:shadow-none">
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
               5. Monthly Budget
             </h3>
             <div className="mt-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-slate-400">Rs. 2,000</span>
-                <span className="text-lg font-bold text-brand-700">
+                <span className="text-lg font-bold text-brand-700 dark:text-brand-400">
                   Rs. {salary.toLocaleString("en-NP")}
                 </span>
                 <span className="text-xs text-slate-400">Rs. 25,000</span>
@@ -342,14 +342,14 @@ export default function HireTutorPage() {
                 step={500}
                 value={salary}
                 onChange={(e) => setSalary(Number(e.target.value))}
-                className="mt-2 w-full accent-brand-600"
+                className="mt-2 w-full accent-brand-600 dark:accent-brand-500"
               />
             </div>
           </section>
 
           {/* ─── Error ─── */}
           {error && (
-            <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+            <div className="rounded-xl bg-red-50 dark:bg-red-900/20 px-4 py-3 text-sm text-red-600 dark:text-red-400">
               {error}
             </div>
           )}
@@ -361,7 +361,7 @@ export default function HireTutorPage() {
             className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/25 transition hover:bg-brand-700 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {submitting && (
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white  border-t-white" />
             )}
             Post Request
           </button>

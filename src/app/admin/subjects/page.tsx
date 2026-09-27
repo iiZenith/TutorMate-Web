@@ -85,7 +85,7 @@ export default function SubjectsPage() {
     <div className="mx-auto max-w-3xl space-y-8">
       {/* Page heading */}
       <div>
-        <h2 className="text-2xl font-bold text-slate-900">
+        <h2 className="text-2xl font-bold text-slate-900 ">
           Manage Subjects
         </h2>
         <p className="mt-1 text-sm text-slate-500">
@@ -95,10 +95,10 @@ export default function SubjectsPage() {
       </div>
 
       {/* Add form */}
-      <div className="rounded-2xl border border-white bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-white  bg-white  p-6 shadow-sm">
         <label
           htmlFor="new-subject"
-          className="block text-sm font-semibold text-slate-700"
+          className="block text-sm font-semibold text-slate-700 "
         >
           New Subject
         </label>
@@ -110,7 +110,7 @@ export default function SubjectsPage() {
             onChange={(e) => setNewSubject(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAdd()}
             placeholder="e.g. Mathematics, Physics…"
-            className="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+            className="flex-1 rounded-xl border border-slate-200  bg-slate-50  px-4 py-2.5 text-sm text-slate-900  placeholder:text-slate-400 outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
           />
           <button
             onClick={handleAdd}
@@ -118,7 +118,7 @@ export default function SubjectsPage() {
             className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {adding ? (
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white  border-t-white" />
             ) : (
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -130,9 +130,9 @@ export default function SubjectsPage() {
       </div>
 
       {/* List */}
-      <div className="rounded-2xl border border-white bg-white shadow-sm">
+      <div className="rounded-2xl border border-white  bg-white  shadow-sm">
         {/* Search bar */}
-        <div className="border-b border-slate-100 px-6 py-4">
+        <div className="border-b border-slate-100  px-6 py-4">
           <div className="relative">
             <svg
               className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
@@ -148,7 +148,7 @@ export default function SubjectsPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search subjects…"
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+              className="w-full rounded-xl border border-slate-200  bg-slate-50  py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
             />
           </div>
           <p className="mt-2 text-xs text-slate-400">
@@ -174,13 +174,13 @@ export default function SubjectsPage() {
             {filtered.map((subject) => (
               <li
                 key={subject}
-                className="flex items-center justify-between px-6 py-3.5 transition-colors hover:bg-slate-50/60"
+                className="flex items-center justify-between px-6 py-3.5 transition-colors hover:bg-slate-50 "
               >
                 <div className="flex items-center gap-3">
                   <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 text-xs font-semibold text-purple-600">
                     📚
                   </span>
-                  <span className="text-sm font-medium text-slate-800">
+                  <span className="text-sm font-medium text-slate-800 ">
                     {subject}
                   </span>
                 </div>

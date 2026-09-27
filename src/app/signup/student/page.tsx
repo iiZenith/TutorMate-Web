@@ -79,7 +79,7 @@ export default function StudentSignUpPage() {
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-xl font-bold text-white shadow-lg shadow-brand-500/25">
               T
             </div>
-            <span className="text-2xl font-bold tracking-tight text-slate-900">
+            <span className="text-2xl font-bold tracking-tight text-slate-900 ">
               Tutor<span className="text-brand-600">Mate</span>
             </span>
           </Link>
@@ -89,7 +89,7 @@ export default function StudentSignUpPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
               </svg>
             </span>
-            <h1 className="text-lg font-bold text-slate-900">Create Account</h1>
+            <h1 className="text-lg font-bold text-slate-900 ">Create Account</h1>
           </div>
           <p className="mt-1 text-sm text-slate-500">
             Register as a Student / Guardian
@@ -97,11 +97,11 @@ export default function StudentSignUpPage() {
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl border border-white bg-white p-8 shadow-xl shadow-slate-200/50">
+        <div className="rounded-2xl border border-white  bg-white  p-8 shadow-xl shadow-slate-200/50">
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Full Name */}
             <div>
-              <label htmlFor="fullName" className="block text-sm font-semibold text-slate-700">
+              <label htmlFor="fullName" className="block text-sm font-semibold text-slate-700 ">
                 Full Name <span className="text-red-400">*</span>
               </label>
               <input
@@ -111,13 +111,13 @@ export default function StudentSignUpPage() {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Ram Bahadur Thapa"
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                className="mt-1.5 w-full rounded-xl border border-slate-200  bg-slate-50  px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
               />
             </div>
 
             {/* Phone (optional, same as Flutter) */}
             <div>
-              <label htmlFor="phone" className="block text-sm font-semibold text-slate-700">
+              <label htmlFor="phone" className="block text-sm font-semibold text-slate-700 ">
                 Phone Number
               </label>
               <input
@@ -126,13 +126,13 @@ export default function StudentSignUpPage() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+977 98XXXXXXXX"
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                className="mt-1.5 w-full rounded-xl border border-slate-200  bg-slate-50  px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
               />
             </div>
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-slate-700">
+              <label htmlFor="email" className="block text-sm font-semibold text-slate-700 ">
                 Email Address <span className="text-red-400">*</span>
               </label>
               <input
@@ -142,13 +142,13 @@ export default function StudentSignUpPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                className="mt-1.5 w-full rounded-xl border border-slate-200  bg-slate-50  px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
               />
             </div>
 
             {/* Gender — radio group matching Flutter */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700">Gender</label>
+              <label className="block text-sm font-semibold text-slate-700 ">Gender</label>
               <div className="mt-2 flex gap-4">
                 {(["Male", "Female", "Other"] as const).map((g) => (
                   <label
@@ -156,7 +156,7 @@ export default function StudentSignUpPage() {
                     className={`flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${
                       gender === g
                         ? "border-brand-400 bg-brand-50 text-brand-700"
-                        : "border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300"
+                        : "border-slate-200  bg-slate-50  text-slate-600  hover:border-slate-300"
                     }`}
                   >
                     <input
@@ -175,7 +175,7 @@ export default function StudentSignUpPage() {
 
             {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-slate-700">
+              <label htmlFor="password" className="block text-sm font-semibold text-slate-700 ">
                 Password <span className="text-red-400">*</span>
               </label>
               <input
@@ -185,13 +185,13 @@ export default function StudentSignUpPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Min 6 characters"
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                className="mt-1.5 w-full rounded-xl border border-slate-200  bg-slate-50  px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
               />
             </div>
 
             {/* Confirm Password */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-semibold text-slate-700">
+              <label htmlFor="confirmPassword" className="block text-sm font-semibold text-slate-700 ">
                 Confirm Password <span className="text-red-400">*</span>
               </label>
               <input
@@ -201,7 +201,7 @@ export default function StudentSignUpPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                className="mt-1.5 w-full rounded-xl border border-slate-200  bg-slate-50  px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
               />
             </div>
 
@@ -213,7 +213,7 @@ export default function StudentSignUpPage() {
                 onChange={(e) => setAgreeToTerms(e.target.checked)}
                 className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500"
               />
-              <span className="text-sm text-slate-600">
+              <span className="text-sm text-slate-600 ">
                 I agree to the{" "}
                 <span className="font-medium text-brand-600">Terms of Use</span>{" "}
                 and{" "}
@@ -235,7 +235,7 @@ export default function StudentSignUpPage() {
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-500/25 transition hover:bg-brand-700 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {submitting && (
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white  border-t-white" />
               )}
               Sign Up
             </button>
@@ -244,7 +244,7 @@ export default function StudentSignUpPage() {
             <p className="text-center text-sm text-slate-500">
               Already have an account?{" "}
               <Link
-                href="/login"
+                href="/"
                 className="font-semibold text-brand-600 transition hover:text-brand-700"
               >
                 Sign In

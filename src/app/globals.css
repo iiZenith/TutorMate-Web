@@ -22,15 +22,30 @@
   --color-brand-900: #1e3a8a;
 
   /* surface / neutral */
-  --color-surface: #f8fafc;
-  --color-surface-raised: #ffffff;
-  --color-surface-sunken: #f1f5f9;
-  --color-border-default: #e2e8f0;
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-border-default: var(--border-default);
 }
 
+/* ─────────────── Light Theme (default) ─────────────── */
 :root {
   --background: #f8fafc;
   --foreground: #0f172a;
+  --surface: #f8fafc;
+  --surface-raised: #ffffff;
+  --surface-sunken: #f1f5f9;
+  --border-default: #e2e8f0;
+}
+
+/* ─────────────── Dark Theme ─────────────── */
+:root.dark {
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+  --surface: #0f172a;
+  --surface-raised: #1e293b;
+  --surface-sunken: #0c1322;
+  --border-default: #334155;
 }
 
 /* ─────────────── Base ─────────────── */
@@ -38,6 +53,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* ─────────────── Smooth scrolling ─────────────── */
@@ -56,6 +72,14 @@ html {
   background: #94a3b8;
   border-radius: 999px;
 }
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+/* ─────────────── Dark mode utility overrides ─────────────── */
+/* These map .dark class to override light-only hardcoded colors */
+.dark .dark\:bg-slate-900 { background-color: #0f172a; }
+.dark .dark\:text-slate-100 { color: #f1f5f9; }
 
 /* ─────────────── Animations ─────────────── */
 @keyframes float {

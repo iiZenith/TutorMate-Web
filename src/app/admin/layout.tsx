@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import withAdminProtection from "@/components/withAdminProtection";
 import { ReactNode, useState } from "react";
+import LogoutButton from "@/components/LogoutButton";
+import ThemeToggle from "@/components/ThemeToggle";
 
 /* ── Sidebar link data ── */
 const NAV_ITEMS = [
@@ -73,16 +75,15 @@ function AdminLayoutInner({ children }: { children: ReactNode }) {
 
       {/* ── Sidebar ── */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border-default bg-white transition-transform duration-300 lg:static lg:translate-x-0 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border-default bg-white  transition-transform duration-300 lg:static lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         {/* Logo */}
         <div className="flex h-16 items-center gap-2.5 border-b border-border-default px-6">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-lg font-bold text-white shadow-md shadow-brand-500/25">
             T
           </div>
-          <span className="text-lg font-bold tracking-tight text-slate-900">
+          <span className="text-lg font-bold tracking-tight text-slate-900 ">
             Tutor<span className="text-brand-600">Mate</span>
           </span>
         </div>
@@ -99,11 +100,10 @@ function AdminLayoutInner({ children }: { children: ReactNode }) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all ${
-                  active
+                className={`flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all ${active
                     ? "bg-brand-50 text-brand-700 shadow-sm"
-                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
-                }`}
+                    : "text-slate-500 hover:bg-slate-50  hover:text-slate-900 "
+                  }`}
               >
                 {item.icon}
                 {item.label}
@@ -119,22 +119,14 @@ function AdminLayoutInner({ children }: { children: ReactNode }) {
               {user?.email?.charAt(0).toUpperCase() ?? "A"}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
+              <p className="truncate text-sm font-medium text-slate-900 ">
                 Admin
               </p>
               <p className="truncate text-xs text-slate-400">
                 {user?.email ?? "admin@tutormate.com"}
               </p>
             </div>
-            <button
-              onClick={signOut}
-              title="Sign out"
-              className="rounded-lg p-1.5 text-slate-400 transition hover:bg-red-50 hover:text-red-500"
-            >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-              </svg>
-            </button>
+            <LogoutButton variant="icon" />
           </div>
         </div>
       </aside>
@@ -142,16 +134,16 @@ function AdminLayoutInner({ children }: { children: ReactNode }) {
       {/* ── Main content area ── */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="flex h-16 items-center gap-4 border-b border-border-default bg-white px-6">
+        <header className="flex h-16 items-center gap-4 border-b border-border-default bg-surface-raised px-6">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 lg:hidden"
+            className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
           </button>
-          <h1 className="text-lg font-semibold text-slate-900">
+          <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
             {NAV_ITEMS.find((item) =>
               item.href === "/admin"
                 ? pathname === "/admin"
@@ -159,12 +151,15 @@ function AdminLayoutInner({ children }: { children: ReactNode }) {
             )?.label ?? "Admin"}
           </h1>
           <div className="flex-1" />
-          <Link
-            href="/"
-            className="text-sm font-medium text-slate-400 transition hover:text-brand-600"
-          >
-            ← Back to Site
-          </Link>
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <Link
+              href="/"
+              className="text-sm font-medium text-slate-400 transition hover:text-brand-600"
+            >
+              ← Back to Site
+            </Link>
+          </div>
         </header>
 
         {/* Page content */}

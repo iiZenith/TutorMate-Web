@@ -12,6 +12,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signOut as firebaseSignOut,
 } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
@@ -27,6 +28,8 @@ export interface AppUserData {
   role: UserRole;
   isProfileComplete: boolean;
   createdAt: Date;
+  phoneNumber?: string;
+  gender?: string;
 }
 
 interface AuthContextType {
@@ -39,8 +42,9 @@ interface AuthContextType {
     email: string,
     password: string,
     role: UserRole
-  ) => Promise<void>;
+  ) => Promise<string>;
   signOut: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
   isAdmin: boolean;
   /** Re-fetches user data from Firestore (after profile updates, etc.) */
   refreshUserData: () => Promise<void>;
@@ -67,6 +71,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         role: (data.role as UserRole) ?? "studentGuardian",
         isProfileComplete: data.isProfileComplete ?? false,
         createdAt: data.createdAt?.toDate?.() ?? new Date(),
+        phoneNumber: data.phoneNumber,
+        gender: data.gender,
       };
     } catch (err) {
       console.error("Failed to fetch user data from Firestore:", err);
@@ -102,13 +108,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
    * Register a new user and create the Firestore document.
    * Field names match the Flutter app exactly:
    *   id, email, fullName, role, isProfileComplete, createdAt
+   * Returns the UID so callers can write additional profile data.
    */
   const signUp = async (
     fullName: string,
     email: string,
     password: string,
     role: UserRole
-  ) => {
+  ): Promise<string> => {
     const credential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -124,6 +131,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isProfileComplete: false,
       createdAt: serverTimestamp(),
     });
+
+    return uid;
+  };
+
+  /**
+   * Send a password reset email.
+   * Mirrors the mobile app's sendPasswordResetEmail().
+   */
+  const resetPassword = async (email: string) => {
+    await sendPasswordResetEmail(auth, email);
   };
 
   const signOut = async () => {
@@ -147,6 +164,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signIn,
         signUp,
         signOut,
+        resetPassword,
         isAdmin,
         refreshUserData,
       }}

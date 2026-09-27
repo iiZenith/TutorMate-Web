@@ -116,7 +116,7 @@ export default function LocationsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">Manage Locations</h2>
+          <h2 className="text-2xl font-bold text-slate-900 ">Manage Locations</h2>
           <p className="mt-1 text-sm text-slate-500">
             Configure Provinces, Districts, and Local Areas.
           </p>
@@ -139,9 +139,9 @@ export default function LocationsPage() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {/* PROVINCES COLUMN */}
         <div className="flex flex-col gap-4">
-          <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden flex flex-col h-[600px]">
-            <div className="border-b border-slate-100 bg-slate-50 p-4">
-              <h3 className="font-semibold text-slate-800">1. Provinces</h3>
+          <div className="rounded-2xl border border-slate-200  bg-white  shadow-sm overflow-hidden flex flex-col h-[600px]">
+            <div className="border-b border-slate-100  bg-slate-50  p-4">
+              <h3 className="font-semibold text-slate-800 ">1. Provinces</h3>
             </div>
             <div className="flex-1 overflow-y-auto p-2">
               {provinces.length === 0 ? (
@@ -155,11 +155,10 @@ export default function LocationsPage() {
                           setSelectedProvince(prov.name);
                           setSelectedDistrict(null); // Reset district when province changes
                         }}
-                        className={`w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition ${
-                          selectedProvince === prov.name
+                        className={`w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition ${selectedProvince === prov.name
                             ? "bg-brand-50 text-brand-700"
-                            : "text-slate-700 hover:bg-slate-50"
-                        }`}
+                            : "text-slate-700  hover:bg-slate-50 "
+                          }`}
                       >
                         {prov.name}
                       </button>
@@ -173,9 +172,9 @@ export default function LocationsPage() {
 
         {/* DISTRICTS COLUMN */}
         <div className="flex flex-col gap-4">
-          <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden flex flex-col h-[600px]">
-            <div className="border-b border-slate-100 bg-slate-50 p-4">
-              <h3 className="font-semibold text-slate-800">2. Districts</h3>
+          <div className="rounded-2xl border border-slate-200  bg-white  shadow-sm overflow-hidden flex flex-col h-[600px]">
+            <div className="border-b border-slate-100  bg-slate-50  p-4">
+              <h3 className="font-semibold text-slate-800 ">2. Districts</h3>
             </div>
             <div className="flex-1 overflow-y-auto p-2">
               {!activeProvince ? (
@@ -190,7 +189,7 @@ export default function LocationsPage() {
                         onChange={(e) => setNewDistrict(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && handleAddDistrict()}
                         placeholder="Add district..."
-                        className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
+                        className="flex-1 rounded-lg border border-slate-200  px-3 py-2 text-sm outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
                       />
                       <button
                         onClick={handleAddDistrict}
@@ -201,17 +200,16 @@ export default function LocationsPage() {
                       </button>
                     </div>
                   </div>
-                  
+
                   <ul className="space-y-1">
                     {Object.keys(activeProvince.districts).sort().map((districtName) => (
                       <li key={districtName} className="group flex items-center justify-between rounded-xl px-2">
                         <button
                           onClick={() => setSelectedDistrict(districtName)}
-                          className={`flex-1 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition ${
-                            selectedDistrict === districtName
+                          className={`flex-1 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition ${selectedDistrict === districtName
                               ? "bg-brand-50 text-brand-700"
-                              : "text-slate-700 hover:bg-slate-50"
-                          }`}
+                              : "text-slate-700  hover:bg-slate-50 "
+                            }`}
                         >
                           {districtName}
                         </button>
@@ -235,9 +233,9 @@ export default function LocationsPage() {
 
         {/* AREAS COLUMN */}
         <div className="flex flex-col gap-4">
-          <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden flex flex-col h-[600px]">
-            <div className="border-b border-slate-100 bg-slate-50 p-4">
-              <h3 className="font-semibold text-slate-800">3. Local Areas / Municipalities</h3>
+          <div className="rounded-2xl border border-slate-200  bg-white  shadow-sm overflow-hidden flex flex-col h-[600px]">
+            <div className="border-b border-slate-100  bg-slate-50  p-4">
+              <h3 className="font-semibold text-slate-800 ">3. Local Areas / Municipalities</h3>
             </div>
             <div className="flex-1 overflow-y-auto p-2">
               {!activeDistrictData ? (
@@ -252,7 +250,7 @@ export default function LocationsPage() {
                         onChange={(e) => setNewArea(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && handleAddArea()}
                         placeholder="Add local area..."
-                        className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
+                        className="flex-1 rounded-lg border border-slate-200  px-3 py-2 text-sm outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
                       />
                       <button
                         onClick={handleAddArea}
@@ -266,8 +264,8 @@ export default function LocationsPage() {
 
                   <ul className="space-y-1">
                     {activeDistrictData.areas.map((area) => (
-                      <li key={area} className="group flex items-center justify-between rounded-xl px-2 py-1 hover:bg-slate-50">
-                        <span className="px-3 py-1.5 text-sm font-medium text-slate-700">
+                      <li key={area} className="group flex items-center justify-between rounded-xl px-2 py-1 hover:bg-slate-50 ">
+                        <span className="px-3 py-1.5 text-sm font-medium text-slate-700 ">
                           {area}
                         </span>
                         <button

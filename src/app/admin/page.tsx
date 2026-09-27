@@ -57,7 +57,7 @@ export default function AdminDashboardPage() {
     <div className="space-y-8">
       {/* Heading */}
       <div>
-        <h2 className="text-2xl font-bold text-slate-900">
+        <h2 className="text-2xl font-bold text-slate-900 ">
           Welcome back, Admin 👋
         </h2>
         <p className="mt-1 text-sm text-slate-500">
@@ -70,7 +70,7 @@ export default function AdminDashboardPage() {
         {STATS.map((stat) => (
           <div
             key={stat.label}
-            className="rounded-2xl border border-white bg-white p-6 shadow-sm transition-all hover:shadow-md"
+            className="rounded-2xl border border-white  bg-white  p-6 shadow-sm transition-all hover:shadow-md"
           >
             <div className="flex items-center justify-between">
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
@@ -86,7 +86,7 @@ export default function AdminDashboardPage() {
                 {stat.up ? "↑" : "↓"} {stat.change}
               </span>
             </div>
-            <p className="mt-4 text-2xl font-bold text-slate-900">
+            <p className="mt-4 text-2xl font-bold text-slate-900 ">
               {stat.value}
             </p>
             <p className="mt-1 text-sm text-slate-500">{stat.label}</p>
@@ -95,8 +95,8 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Quick actions */}
-      <div className="rounded-2xl border border-white bg-white p-8 shadow-sm">
-        <h3 className="text-lg font-bold text-slate-900">Quick Actions</h3>
+      <div className="rounded-2xl border border-white  bg-white  p-8 shadow-sm">
+        <h3 className="text-lg font-bold text-slate-900 ">Quick Actions</h3>
         <p className="mt-1 text-sm text-slate-500">
           Manage your platform configuration.
         </p>
