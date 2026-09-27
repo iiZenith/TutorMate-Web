@@ -1,208 +1,300 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 /* ═══════════════════════════════════════════════════
-   Admin — Subjects Management
-   Firestore path: platform_metadata / subjects / { items: string[] }
+   Admin — Hierarchical Subjects Management
+   Firestore path: platform_metadata / subjects_hierarchy
+   Structure:
+   {
+     hierarchy: {
+       "Level Name": {
+         "Grade Name": ["Subject 1", "Subject 2"]
+       }
+     }
+   }
    ═══════════════════════════════════════════════════ */
 
 const COLLECTION = "platform_metadata";
-const DOCUMENT = "subjects";
-const FIELD = "items";
+const DOCUMENT = "subjects_hierarchy";
+
+type Hierarchy = Record<string, Record<string, string[]>>;
 
 export default function SubjectsPage() {
-  const [subjects, setSubjects] = useState<string[]>([]);
-  const [newSubject, setNewSubject] = useState("");
+  const [hierarchy, setHierarchy] = useState<Hierarchy>({});
   const [loading, setLoading] = useState(true);
-  const [adding, setAdding] = useState(false);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [search, setSearch] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  /* ── Fetch subjects ── */
+  // Selection states
+  const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
+  const [selectedGrade, setSelectedGrade] = useState<string | null>(null);
+
+  // Input states
+  const [newLevel, setNewLevel] = useState("");
+  const [newGrade, setNewGrade] = useState("");
+  const [newSubject, setNewSubject] = useState("");
+
+  /* ── Fetch hierarchy ── */
   useEffect(() => {
-    async function fetchSubjects() {
+    async function fetchHierarchy() {
       try {
         const snap = await getDoc(doc(db, COLLECTION, DOCUMENT));
         if (snap.exists()) {
-          const data = snap.data();
-          setSubjects((data[FIELD] as string[]) ?? []);
+          setHierarchy(snap.data()?.hierarchy || {});
+        } else {
+          // Initialize if missing
+          setHierarchy({
+            "Primary": { "Grade 1": [], "Grade 2": [] },
+            "Secondary": { "Grade 9": [], "Grade 10": [] },
+          });
         }
       } catch (err) {
-        console.error("Failed to fetch subjects:", err);
+        console.error("Failed to fetch hierarchy:", err);
       } finally {
         setLoading(false);
       }
     }
-    fetchSubjects();
+    fetchHierarchy();
   }, []);
 
-  /* ── Add subject ── */
-  async function handleAdd() {
+  /* ── Save to Firestore ── */
+  const saveHierarchy = async (newHierarchy: Hierarchy) => {
+    setSaving(true);
+    try {
+      const ref = doc(db, COLLECTION, DOCUMENT);
+      await setDoc(ref, { hierarchy: newHierarchy }, { merge: true });
+      setHierarchy(newHierarchy);
+    } catch (error) {
+      console.error("Error saving hierarchy:", error);
+      alert("Failed to save changes. Please try again.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  /* ── Handlers ── */
+  const handleAddLevel = () => {
+    const trimmed = newLevel.trim();
+    if (!trimmed || hierarchy[trimmed]) return;
+    saveHierarchy({ ...hierarchy, [trimmed]: {} });
+    setNewLevel("");
+  };
+
+  const handleDeleteLevel = (level: string) => {
+    if (!confirm(`Delete level "${level}" and all its grades?`)) return;
+    const clone = { ...hierarchy };
+    delete clone[level];
+    if (selectedLevel === level) {
+      setSelectedLevel(null);
+      setSelectedGrade(null);
+    }
+    saveHierarchy(clone);
+  };
+
+  const handleAddGrade = () => {
+    if (!selectedLevel) return;
+    const trimmed = newGrade.trim();
+    if (!trimmed || hierarchy[selectedLevel]?.[trimmed]) return;
+    
+    const clone = { ...hierarchy };
+    clone[selectedLevel][trimmed] = [];
+    saveHierarchy(clone);
+    setNewGrade("");
+  };
+
+  const handleDeleteGrade = (grade: string) => {
+    if (!selectedLevel) return;
+    if (!confirm(`Delete grade "${grade}"?`)) return;
+    
+    const clone = { ...hierarchy };
+    delete clone[selectedLevel][grade];
+    if (selectedGrade === grade) setSelectedGrade(null);
+    saveHierarchy(clone);
+  };
+
+  const handleAddSubject = () => {
+    if (!selectedLevel || !selectedGrade) return;
     const trimmed = newSubject.trim();
-    if (!trimmed) return;
-    if (subjects.includes(trimmed)) {
-      alert("This subject already exists.");
-      return;
-    }
-    setAdding(true);
-    try {
-      const ref = doc(db, COLLECTION, DOCUMENT);
-      await updateDoc(ref, { [FIELD]: arrayUnion(trimmed) });
-      setSubjects((prev) => [...prev, trimmed]);
-      setNewSubject("");
-    } catch (err) {
-      console.error("Add failed:", err);
-      alert("Failed to add subject. Make sure the Firestore document exists.");
-    } finally {
-      setAdding(false);
-    }
-  }
+    const subjects = hierarchy[selectedLevel][selectedGrade] || [];
+    if (!trimmed || subjects.includes(trimmed)) return;
+    
+    const clone = { ...hierarchy };
+    clone[selectedLevel][selectedGrade] = [...subjects, trimmed];
+    saveHierarchy(clone);
+    setNewSubject("");
+  };
 
-  /* ── Delete subject ── */
-  async function handleDelete(subject: string) {
-    if (!confirm(`Remove "${subject}" from subjects?`)) return;
-    setDeletingId(subject);
-    try {
-      const ref = doc(db, COLLECTION, DOCUMENT);
-      await updateDoc(ref, { [FIELD]: arrayRemove(subject) });
-      setSubjects((prev) => prev.filter((s) => s !== subject));
-    } catch (err) {
-      console.error("Delete failed:", err);
-    } finally {
-      setDeletingId(null);
-    }
-  }
-
-  /* ── Filtered list ── */
-  const filtered = subjects.filter((s) =>
-    s.toLowerCase().includes(search.toLowerCase())
-  );
+  const handleDeleteSubject = (subject: string) => {
+    if (!selectedLevel || !selectedGrade) return;
+    if (!confirm(`Delete subject "${subject}"?`)) return;
+    
+    const clone = { ...hierarchy };
+    clone[selectedLevel][selectedGrade] = clone[selectedLevel][selectedGrade].filter(s => s !== subject);
+    saveHierarchy(clone);
+  };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8">
+    <div className="space-y-8">
       {/* Page heading */}
       <div>
         <h2 className="text-2xl font-bold text-text-primary">
-          Manage Subjects
+          Hierarchical Subjects Management
         </h2>
         <p className="mt-1 text-sm text-text-muted">
-          Add or remove subjects available on TutorMate. Changes sync with the
-          mobile app instantly.
+          Manage subjects by Level and Grade/Stream.
         </p>
       </div>
 
-      {/* Add form */}
-      <div className="rounded-2xl border border-border-default bg-surface-raised p-6 shadow-sm">
-        <label
-          htmlFor="new-subject"
-          className="block text-sm font-semibold text-text-secondary"
-        >
-          New Subject
-        </label>
-        <div className="mt-2 flex gap-3">
-          <input
-            id="new-subject"
-            type="text"
-            value={newSubject}
-            onChange={(e) => setNewSubject(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleAdd()}
-            placeholder="e.g. Mathematics, Physics…"
-            className="flex-1 rounded-xl border border-border-default bg-surface px-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
-          />
-          <button
-            onClick={handleAdd}
-            disabled={adding || !newSubject.trim()}
-            className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {adding ? (
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-border-default border-t-white" />
-            ) : (
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-              </svg>
-            )}
-            Add Subject
-          </button>
+      {loading ? (
+        <div className="flex h-32 items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
         </div>
-      </div>
-
-      {/* List */}
-      <div className="rounded-2xl border border-border-default bg-surface-raised shadow-sm">
-        {/* Search bar */}
-        <div className="border-b border-border-default px-6 py-4">
-          <div className="relative">
-            <svg
-              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-            </svg>
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search subjects…"
-              className="w-full rounded-xl border border-border-default bg-surface py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
-            />
-          </div>
-          <p className="mt-2 text-xs text-text-muted">
-            {filtered.length} subject{filtered.length !== 1 ? "s" : ""} found
-          </p>
-        </div>
-
-        {/* Items */}
-        {loading ? (
-          <div className="flex items-center justify-center py-16">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className="py-16 text-center">
-            <p className="text-sm text-text-muted">
-              {subjects.length === 0
-                ? "No subjects yet. Add one above!"
-                : "No results match your search."}
-            </p>
-          </div>
-        ) : (
-          <ul className="divide-y divide-slate-50">
-            {filtered.map((subject) => (
-              <li
-                key={subject}
-                className="flex items-center justify-between px-6 py-3.5 transition-colors hover:bg-surface"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 text-xs font-semibold text-purple-600">
-                    📚
-                  </span>
-                  <span className="text-sm font-medium text-text-primary">
-                    {subject}
-                  </span>
-                </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+          
+          {/* COL 1: LEVELS */}
+          <div className="rounded-2xl border border-border-default bg-surface-raised shadow-sm overflow-hidden flex flex-col h-[600px]">
+            <div className="bg-surface p-4 border-b border-border-default shrink-0">
+              <h3 className="font-semibold text-text-primary mb-3">Levels</h3>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newLevel}
+                  onChange={(e) => setNewLevel(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleAddLevel()}
+                  placeholder="e.g. High School"
+                  className="flex-1 rounded-lg border border-border-default bg-surface px-3 py-2 text-sm text-text-primary outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
+                />
                 <button
-                  onClick={() => handleDelete(subject)}
-                  disabled={deletingId === subject}
-                  className="rounded-lg p-2 text-text-muted transition hover:bg-red-50 hover:text-red-500 disabled:opacity-50"
-                  title={`Remove ${subject}`}
+                  onClick={handleAddLevel}
+                  disabled={!newLevel.trim() || saving}
+                  className="rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
                 >
-                  {deletingId === subject ? (
-                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-red-200 border-t-red-500" />
-                  ) : (
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                    </svg>
-                  )}
+                  Add
                 </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+              </div>
+            </div>
+            <ul className="overflow-y-auto flex-1 divide-y divide-border-default">
+              {Object.keys(hierarchy).map(level => (
+                <li key={level} className="flex">
+                  <button
+                    onClick={() => { setSelectedLevel(level); setSelectedGrade(null); }}
+                    className={`flex-1 text-left px-4 py-3 text-sm font-medium transition-colors ${selectedLevel === level ? "bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300" : "text-text-primary hover:bg-surface-sunken"}`}
+                  >
+                    {level}
+                  </button>
+                  <button onClick={() => handleDeleteLevel(level)} className="px-3 text-text-muted hover:text-red-500 hover:bg-red-50 transition-colors">
+                    ×
+                  </button>
+                </li>
+              ))}
+              {Object.keys(hierarchy).length === 0 && (
+                <li className="p-4 text-sm text-text-muted text-center">No levels defined.</li>
+              )}
+            </ul>
+          </div>
+
+          {/* COL 2: GRADES */}
+          <div className="rounded-2xl border border-border-default bg-surface-raised shadow-sm overflow-hidden flex flex-col h-[600px]">
+            <div className="bg-surface p-4 border-b border-border-default shrink-0">
+              <h3 className="font-semibold text-text-primary mb-3">
+                {selectedLevel ? `Grades in ${selectedLevel}` : "Select a Level"}
+              </h3>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newGrade}
+                  onChange={(e) => setNewGrade(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleAddGrade()}
+                  placeholder="e.g. Grade 10"
+                  disabled={!selectedLevel}
+                  className="flex-1 rounded-lg border border-border-default bg-surface px-3 py-2 text-sm text-text-primary outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 disabled:opacity-50"
+                />
+                <button
+                  onClick={handleAddGrade}
+                  disabled={!selectedLevel || !newGrade.trim() || saving}
+                  className="rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+            <ul className="overflow-y-auto flex-1 divide-y divide-border-default">
+              {!selectedLevel ? (
+                <li className="p-4 text-sm text-text-muted text-center">Select a level to view grades.</li>
+              ) : (
+                <>
+                  {Object.keys(hierarchy[selectedLevel] || {}).map(grade => (
+                    <li key={grade} className="flex">
+                      <button
+                        onClick={() => setSelectedGrade(grade)}
+                        className={`flex-1 text-left px-4 py-3 text-sm font-medium transition-colors ${selectedGrade === grade ? "bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300" : "text-text-primary hover:bg-surface-sunken"}`}
+                      >
+                        {grade}
+                      </button>
+                      <button onClick={() => handleDeleteGrade(grade)} className="px-3 text-text-muted hover:text-red-500 hover:bg-red-50 transition-colors">
+                        ×
+                      </button>
+                    </li>
+                  ))}
+                  {Object.keys(hierarchy[selectedLevel] || {}).length === 0 && (
+                    <li className="p-4 text-sm text-text-muted text-center">No grades defined.</li>
+                  )}
+                </>
+              )}
+            </ul>
+          </div>
+
+          {/* COL 3: SUBJECTS */}
+          <div className="rounded-2xl border border-border-default bg-surface-raised shadow-sm overflow-hidden flex flex-col h-[600px]">
+            <div className="bg-surface p-4 border-b border-border-default shrink-0">
+              <h3 className="font-semibold text-text-primary mb-3">
+                {selectedGrade ? `Subjects in ${selectedGrade}` : "Select a Grade"}
+              </h3>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newSubject}
+                  onChange={(e) => setNewSubject(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleAddSubject()}
+                  placeholder="e.g. Physics"
+                  disabled={!selectedGrade}
+                  className="flex-1 rounded-lg border border-border-default bg-surface px-3 py-2 text-sm text-text-primary outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 disabled:opacity-50"
+                />
+                <button
+                  onClick={handleAddSubject}
+                  disabled={!selectedGrade || !newSubject.trim() || saving}
+                  className="rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+            <ul className="overflow-y-auto flex-1 divide-y divide-border-default">
+              {!selectedGrade ? (
+                <li className="p-4 text-sm text-text-muted text-center">Select a grade to view subjects.</li>
+              ) : (
+                <>
+                  {(hierarchy[selectedLevel!]?.[selectedGrade] || []).map(subject => (
+                    <li key={subject} className="flex px-4 py-3 text-sm text-text-primary hover:bg-surface-sunken">
+                      <span className="flex-1">{subject}</span>
+                      <button onClick={() => handleDeleteSubject(subject)} className="text-text-muted hover:text-red-500 ml-2">
+                        ×
+                      </button>
+                    </li>
+                  ))}
+                  {(hierarchy[selectedLevel!]?.[selectedGrade] || []).length === 0 && (
+                    <li className="p-4 text-sm text-text-muted text-center">No subjects defined.</li>
+                  )}
+                </>
+              )}
+            </ul>
+          </div>
+
+        </div>
+      )}
     </div>
   );
 }

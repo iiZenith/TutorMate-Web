@@ -65,10 +65,10 @@ export default function StudentDashboardPage() {
   }, [user]);
 
   useEffect(() => {
-    if (user && userData?.role === "studentGuardian") {
+    if (user && (userData?.role === "studentGuardian" || userData?.role === "admin")) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchMyRequests();
-    } else if (!authLoading && userData && userData.role !== "studentGuardian") {
+    } else if (!authLoading && userData && userData.role !== "studentGuardian" && userData.role !== "admin") {
       router.replace("/");
     }
   }, [user, userData, authLoading, router, fetchMyRequests]);
@@ -167,12 +167,12 @@ export default function StudentDashboardPage() {
                 <div key={req.jobId} className="rounded-2xl border border-border-default bg-surface-raised p-6 shadow-sm">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <span className="inline-flex rounded-full bg-brand-50 /20 px-2 py-0.5 text-xs font-bold text-brand-700 mb-2">
+                      <span className="inline-flex rounded-full bg-brand-50/20 px-2 py-0.5 text-xs font-bold text-brand-700 mb-2">
                         {req.grade}
                       </span>
                       <h3 className="font-bold text-lg text-text-primary">{req.subjects.join(", ")}</h3>
                     </div>
-                    <span className="inline-flex rounded-full bg-emerald-50 /20 px-2 py-0.5 text-xs font-medium text-emerald-600">
+                    <span className="inline-flex rounded-full bg-emerald-50/20 px-2 py-0.5 text-xs font-medium text-emerald-600">
                       Open
                     </span>
                   </div>

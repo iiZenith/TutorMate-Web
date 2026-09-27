@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { collection, query, where, getDocs, Timestamp } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, Timestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
 import LocationSelector, { LocationSelection } from "@/components/LocationSelector";
@@ -29,14 +29,7 @@ interface JobRequest {
   createdAt: Timestamp | Date;
 }
 
-const SUBJECTS = [
-  "Social",
-  "Nepali",
-  "English",
-  "Math",
-  "Science",
-  "Health",
-];
+// removed static SUBJECTS
 
 export default function TutorDashboardPage() {
   const { user, userData, loading: authLoading } = useAuth();
@@ -45,6 +38,7 @@ export default function TutorDashboardPage() {
   const [jobs, setJobs] = useState<JobRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [availableSubjects, setAvailableSubjects] = useState<string[]>([]);
 
   // Filters
   const [locationFilter, setLocationFilter] = useState<LocationSelection>({
@@ -62,7 +56,30 @@ export default function TutorDashboardPage() {
   }, [authLoading, user, router]);
 
   useEffect(() => {
-    if (user && userData?.role === "tutor") {
+    async function fetchSubjects() {
+      try {
+        const snap = await getDoc(doc(db, "platform_metadata", "subjects_hierarchy"));
+        if (snap.exists()) {
+          const hierarchy = snap.data()?.hierarchy || {};
+          const subjectSet = new Set<string>();
+          Object.values(hierarchy).forEach((grades: unknown) => {
+            Object.values(grades as Record<string, string[]>).forEach((subs: string[]) => {
+              if (Array.isArray(subs)) {
+                subs.forEach((s) => subjectSet.add(s));
+              }
+            });
+          });
+          setAvailableSubjects(Array.from(subjectSet).sort());
+        }
+      } catch (err) {
+        console.error("Failed to load subjects", err);
+      }
+    }
+    fetchSubjects();
+  }, []);
+
+  useEffect(() => {
+    if (user && (userData?.role === "tutor" || userData?.role === "admin")) {
       fetchJobs();
     } else if (!authLoading && userData && userData.role !== "tutor" && userData.role !== "admin") {
       // Basic role protection (admin can view too)
@@ -172,7 +189,7 @@ export default function TutorDashboardPage() {
                     className="w-full rounded-xl border border-border-default bg-surface px-3 py-2 text-sm outline-none transition focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
                   >
                     <option value="">All Subjects</option>
-                    {SUBJECTS.map((s) => (
+                    {availableSubjects.map((s) => (
                       <option key={s} value={s}>{s}</option>
                     ))}
                   </select>

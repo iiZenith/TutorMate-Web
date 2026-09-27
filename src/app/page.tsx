@@ -155,13 +155,13 @@ export default function RootLoginPage() {
             </div>
 
             {error && (
-              <div className="rounded-xl bg-red-50 /20 px-4 py-3 text-sm text-red-600">
+              <div className="rounded-xl bg-red-50/20 px-4 py-3 text-sm text-red-600">
                 {error}
               </div>
             )}
 
             {resetMessage && (
-              <div className="rounded-xl bg-emerald-50 /20 px-4 py-3 text-sm text-emerald-600">
+              <div className="rounded-xl bg-emerald-50/20 px-4 py-3 text-sm text-emerald-600">
                 {resetMessage}
               </div>
             )}
@@ -192,7 +192,7 @@ export default function RootLoginPage() {
               </Link>
               <Link
                 href="/signup/tutor"
-                className="flex flex-1 items-center justify-center rounded-xl border border-brand-200 bg-brand-50 /20 px-4 py-2.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-100 /40"
+                className="flex flex-1 items-center justify-center rounded-xl border border-brand-200 bg-brand-50/20 px-4 py-2.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-100/40"
               >
                 Apply as Tutor
               </Link>

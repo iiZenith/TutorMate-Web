@@ -184,7 +184,7 @@ export default function TutorSignUpPage() {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="e.g., Sita Sharma"
-                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
+                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40"
                   />
                 </div>
 
@@ -199,7 +199,7 @@ export default function TutorSignUpPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
+                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40"
                   />
                 </div>
 
@@ -213,7 +213,7 @@ export default function TutorSignUpPage() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+977 98XXXXXXXX"
-                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
+                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40"
                   />
                 </div>
 
@@ -228,7 +228,7 @@ export default function TutorSignUpPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Min 6 characters"
-                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
+                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40"
                   />
                 </div>
 
@@ -243,7 +243,7 @@ export default function TutorSignUpPage() {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
+                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40"
                   />
                 </div>
 
@@ -253,7 +253,7 @@ export default function TutorSignUpPage() {
                     {(["Male", "Female", "Other"] as const).map((g) => (
                       <label
                         key={g}
-                        className={`flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${ gender === g ? "border-brand-400 bg-brand-50 /20 text-brand-700 " : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
+                        className={`flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${ gender === g ? "border-brand-400 bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300" : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
                       >
                         <input
                           type="radio"
@@ -286,7 +286,7 @@ export default function TutorSignUpPage() {
                     value={headline}
                     onChange={(e) => setHeadline(e.target.value)}
                     placeholder="e.g., M.Sc. Physics Tutor with 5+ Years Exp"
-                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
+                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40"
                   />
                 </div>
 
@@ -300,7 +300,7 @@ export default function TutorSignUpPage() {
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                     placeholder="Tell students about your teaching style..."
-                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40 resize-none"
+                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40 resize-none"
                   />
                 </div>
 
@@ -366,7 +366,7 @@ export default function TutorSignUpPage() {
                     value={rate}
                     onChange={(e) => setRate(e.target.value)}
                     placeholder="e.g., 10000"
-                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
+                    className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40"
                   />
                 </div>
               </div>
@@ -390,7 +390,7 @@ export default function TutorSignUpPage() {
               </label>
 
               {error && (
-                <div className="mb-6 rounded-xl bg-red-50 /20 px-4 py-3 text-sm text-red-600">
+                <div className="mb-6 rounded-xl bg-red-50/20 px-4 py-3 text-sm text-red-600">
                   {error}
                 </div>
               )}

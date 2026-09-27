@@ -2,7 +2,7 @@
 
 import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { collection, doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
 import LocationSelector, { LocationSelection } from "@/components/LocationSelector";
@@ -20,44 +20,45 @@ import ThemeToggle from "@/components/ThemeToggle";
      district, area, budgetNpr, status, createdAt
    ═══════════════════════════════════════════════════ */
 
-const GRADES = [
-  "Grade 1",
-  "Grade 2",
-  "Grade 3",
-  "Grade 4",
-  "Grade 5",
-  "Grade 6",
-  "Grade 7",
-  "Grade 8",
-  "Grade 9",
-  "Grade 10",
-];
-
-const SUBJECTS = [
-  "Social",
-  "Nepali",
-  "English",
-  "Math",
-  "Science",
-  "Health",
-];
-
 const TUITION_MODES = ["Home Tuition", "Tutor's Place", "Online"];
 
 export default function HireTutorPage() {
   const { user, userData, loading: authLoading } = useAuth();
   const router = useRouter();
 
-  // Redirect if not logged in
+  // Redirect if not logged in or unauthorized
   useEffect(() => {
     if (!authLoading && !user) {
       router.replace("/");
+    } else if (!authLoading && userData && userData.role !== "studentGuardian" && userData.role !== "admin") {
+      router.replace("/");
     }
-  }, [authLoading, user, router]);
+  }, [authLoading, user, userData, router]);
 
   /* ── Form state ── */
+  const [level, setLevel] = useState("");
   const [grade, setGrade] = useState("");
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+  const [hierarchy, setHierarchy] = useState<Record<string, Record<string, string[]>>>({});
+  const [loadingHierarchy, setLoadingHierarchy] = useState(true);
+
+  // Fetch hierarchy
+  useEffect(() => {
+    async function fetchHierarchy() {
+      try {
+        const snap = await getDoc(doc(db, "platform_metadata", "subjects_hierarchy"));
+        if (snap.exists()) {
+          setHierarchy(snap.data()?.hierarchy || {});
+        }
+      } catch (error) {
+        console.error("Failed to load hierarchy:", error);
+      } finally {
+        setLoadingHierarchy(false);
+      }
+    }
+    fetchHierarchy();
+  }, []);
+
   const [location, setLocation] = useState<LocationSelection>({
     province: "",
     district: "",
@@ -83,8 +84,8 @@ export default function HireTutorPage() {
     setError("");
 
     /* ── Validation ── */
-    if (!grade) {
-      setError("Please select a grade.");
+    if (!level || !grade) {
+      setError("Please select a level and grade.");
       return;
     }
     if (selectedSubjects.length === 0) {
@@ -210,24 +211,50 @@ export default function HireTutorPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          {/* ─── 1. Grade ─── */}
+          {/* ─── 1. Student Level & Grade ─── */}
           <section className="rounded-2xl border border-border-default bg-surface-raised p-6 shadow-sm">
             <h3 className="text-sm font-semibold text-text-primary">
-              1. Student Grade / Class <span className="text-red-400">*</span>
+              1. Student Level & Grade <span className="text-red-400">*</span>
             </h3>
-            <p className="mt-1 text-xs text-text-muted">Grades 1 through 10 only</p>
-            <div className="mt-4 grid grid-cols-5 gap-2 sm:grid-cols-10">
-              {GRADES.map((g) => (
-                <button
-                  key={g}
-                  type="button"
-                  onClick={() => setGrade(g)}
-                  className={`rounded-xl border px-3 py-2.5 text-xs font-semibold transition ${ grade === g ? "border-brand-400 bg-brand-50 /20 text-brand-700 " : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
-                >
-                  {g.replace("Grade ", "")}
-                </button>
-              ))}
-            </div>
+            {loadingHierarchy ? (
+              <div className="mt-4 text-sm text-text-muted animate-pulse">Loading grades...</div>
+            ) : (
+              <div className="mt-4 space-y-6">
+                <div>
+                  <p className="text-xs text-text-muted mb-2 uppercase tracking-wide font-semibold">Select Level</p>
+                  <div className="flex flex-wrap gap-2">
+                    {Object.keys(hierarchy).map((l) => (
+                      <button
+                        key={l}
+                        type="button"
+                        onClick={() => { setLevel(l); setGrade(""); setSelectedSubjects([]); }}
+                        className={`rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${ level === l ? "border-brand-400 bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300" : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
+                      >
+                        {l}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {level && hierarchy[level] && (
+                  <div>
+                    <p className="text-xs text-text-muted mb-2 uppercase tracking-wide font-semibold">Select Grade / Class</p>
+                    <div className="flex flex-wrap gap-2">
+                      {Object.keys(hierarchy[level]).map((g) => (
+                        <button
+                          key={g}
+                          type="button"
+                          onClick={() => { setGrade(g); setSelectedSubjects([]); }}
+                          className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${ grade === g ? "border-brand-400 bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300" : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
+                        >
+                          {g}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </section>
 
           {/* ─── 2. Subjects ─── */}
@@ -237,24 +264,30 @@ export default function HireTutorPage() {
             </h3>
             <p className="mt-1 text-xs text-text-muted">Select one or more subjects</p>
             <div className="mt-4 flex flex-wrap gap-2">
-              {SUBJECTS.map((s) => {
-                const isSelected = selectedSubjects.includes(s);
-                return (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => toggleSubject(s)}
-                    className={`rounded-full border px-4 py-2 text-sm font-medium transition ${ isSelected ? "border-brand-400 bg-brand-600 text-white shadow-sm" : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
-                  >
-                    {isSelected && (
-                      <svg className="mr-1.5 inline h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                      </svg>
-                    )}
-                    {s}
-                  </button>
-                );
-              })}
+              {!level || !grade ? (
+                <p className="text-sm text-text-muted">Please select a level and grade first.</p>
+              ) : (hierarchy[level][grade] || []).length === 0 ? (
+                <p className="text-sm text-text-muted">No subjects available for this grade.</p>
+              ) : (
+                (hierarchy[level][grade] || []).map((s) => {
+                  const isSelected = selectedSubjects.includes(s);
+                  return (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => toggleSubject(s)}
+                      className={`rounded-full border px-4 py-2 text-sm font-medium transition ${ isSelected ? "border-brand-400 bg-brand-600 text-white shadow-sm" : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
+                    >
+                      {isSelected && (
+                        <svg className="mr-1.5 inline h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                        </svg>
+                      )}
+                      {s}
+                    </button>
+                  );
+                })
+              )}
             </div>
           </section>
 
@@ -286,7 +319,7 @@ export default function HireTutorPage() {
                   key={mode}
                   type="button"
                   onClick={() => setTuitionMode(mode)}
-                  className={`flex-1 rounded-xl border px-3 py-2.5 text-sm font-medium transition ${ tuitionMode === mode ? "border-brand-400 bg-brand-50 /20 text-brand-700 " : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
+                  className={`flex-1 rounded-xl border px-3 py-2.5 text-sm font-medium transition ${ tuitionMode === mode ? "border-brand-400 bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300" : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
                 >
                   {mode}
                 </button>
@@ -300,7 +333,7 @@ export default function HireTutorPage() {
             <select
               value={daysPerWeek}
               onChange={(e) => setDaysPerWeek(Number(e.target.value))}
-              className="w-full appearance-none rounded-xl border border-border-default bg-surface-sunken px-4 py-2.5 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
+              className="w-full appearance-none rounded-xl border border-border-default bg-surface-sunken px-4 py-2.5 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40"
             >
               {[1, 2, 3, 4, 5, 6, 7].map((d) => (
                 <option key={d} value={d}>
@@ -337,7 +370,7 @@ export default function HireTutorPage() {
 
           {/* ─── Error ─── */}
           {error && (
-            <div className="rounded-xl bg-red-50 /20 px-4 py-3 text-sm text-red-600">
+            <div className="rounded-xl bg-red-50/20 px-4 py-3 text-sm text-red-600">
               {error}
             </div>
           )}

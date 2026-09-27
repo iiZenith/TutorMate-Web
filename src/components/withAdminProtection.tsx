@@ -43,7 +43,7 @@ export default function withAdminProtection<P extends object>(
       return (
         <div className="flex min-h-screen items-center justify-center bg-surface">
           <div className="flex flex-col items-center gap-4">
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600" />
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
             <p className="text-sm text-text-muted">Verifying access…</p>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function withAdminProtection<P extends object>(
         return (
           <div className="flex min-h-screen items-center justify-center bg-surface">
             <div className="flex flex-col items-center gap-4">
-              <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600" />
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
               <p className="text-sm text-text-muted">Redirecting…</p>
             </div>
           </div>
@@ -67,7 +67,7 @@ export default function withAdminProtection<P extends object>(
       return (
         <div className="flex min-h-screen items-center justify-center bg-surface">
           <div className="flex flex-col items-center gap-4">
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600" />
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
             <p className="text-sm text-text-muted">Redirecting…</p>
           </div>
         </div>

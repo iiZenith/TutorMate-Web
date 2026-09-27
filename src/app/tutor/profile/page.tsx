@@ -205,7 +205,7 @@ export default function TutorProfilePage() {
         </div>
 
         {message.text && (
-          <div className={`mb-6 rounded-xl px-4 py-3 text-sm ${ message.type === "success" ? "bg-emerald-50 /20 text-emerald-600 " : "bg-red-50 /20 text-red-600 " }`}>
+          <div className={`mb-6 rounded-xl px-4 py-3 text-sm ${ message.type === "success" ? "bg-emerald-50/20 text-emerald-600 " : "bg-red-50/20 text-red-600 " }`}>
             {message.text}
           </div>
         )}
@@ -223,7 +223,7 @@ export default function TutorProfilePage() {
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
+                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40"
                 />
               </div>
 
@@ -233,7 +233,7 @@ export default function TutorProfilePage() {
                   type="tel"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
+                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40"
                 />
               </div>
 
@@ -243,7 +243,7 @@ export default function TutorProfilePage() {
                   {(["Male", "Female", "Other"] as const).map((g) => (
                     <label
                       key={g}
-                      className={`flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${ gender === g ? "border-brand-400 bg-brand-50 /20 text-brand-700 " : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
+                      className={`flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${ gender === g ? "border-brand-400 bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300" : "border-border-default bg-surface-sunken text-text-secondary hover:border-text-muted" }`}
                     >
                       <input
                         type="radio"
@@ -273,7 +273,7 @@ export default function TutorProfilePage() {
                   value={headline}
                   onChange={(e) => setHeadline(e.target.value)}
                   placeholder="e.g. M.Sc Physics with 5+ years experience"
-                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
+                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40"
                 />
               </div>
 
@@ -284,7 +284,7 @@ export default function TutorProfilePage() {
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   placeholder="Tell students about your teaching methodology..."
-                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40 resize-none"
+                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40 resize-none"
                 />
               </div>
 
@@ -339,7 +339,7 @@ export default function TutorProfilePage() {
                   value={monthlyRate}
                   onChange={(e) => setMonthlyRate(e.target.value)}
                   placeholder="e.g. 15000"
-                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 /40"
+                  className="mt-1.5 w-full rounded-xl border border-border-default bg-surface-sunken px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100/40"
                 />
                 <p className="mt-2 text-sm text-text-muted">
                   This helps match you with students who have a similar budget.
